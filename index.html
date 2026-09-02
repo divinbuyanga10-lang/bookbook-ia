@@ -16,7 +16,117 @@ header h1 span{color:#38bdf8}
 .box{display:flex;padding:12px;gap:8px;background:#1e293b}
 .box input{flex:1;padding:14px;border-radius:30px;border:none;background:#0f172a;color:white;outline:none}
 .box button{padding:14px 20px;border-radius:30px;border:none;background:#38bdf8;font-weight:bold}
+.bot h1,
+.bot h2,
+.bot h3 {
+    margin: 12px 0 8px;
+    line-height: 1.3;
+}
+
+.bot p {
+    margin: 8px 0;
+}
+
+.bot ul,
+.bot ol {
+    margin: 8px 0;
+    padding-left: 25px;
+}
+
+.bot li {
+    margin: 5px 0;
+}
+
+.bot code {
+    background: #0f172a;
+    padding: 3px 6px;
+    border-radius: 5px;
+    font-family: monospace;
+    font-size: 13px;
+}
+
+.bot pre {
+    background: #020617;
+    padding: 14px;
+    border-radius: 10px;
+    overflow-x: auto;
+    margin: 12px 0;
+    border: 1px solid #334155;
+}
+
+.bot pre code {
+    background: none;
+    padding: 0;
+    line-height: 1.5;
+}
+.bot .code-container {
+    position: relative;
+    margin: 12px 0;
+}
+
+.bot .copy-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: #334155;
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.bot .copy-btn:active {
+    transform: scale(0.95);
+}
+.typing {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 0;
+}
+
+.typing span {
+    width: 7px;
+    height: 7px;
+    background: #38bdf8;
+    border-radius: 50%;
+    animation: typing 1.4s infinite ease-in-out;
+}
+
+.typing span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.typing span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes typing {
+    0%, 60%, 100% {
+        opacity: 0.3;
+        transform: translateY(0);
+    }
+
+    30% {
+        opacity: 1;
+        transform: translateY(-4px);
+    }
+}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+<link rel="stylesheet"
+href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+
+<script defer
+src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+<script defer
+src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"
+onload="window.katexAutoRenderLoaded = true">
+</script>
 </head>
 <body>
 <header><h1>boockBook <span>IA</span> - Connecté à ton API</h1></header>
@@ -28,26 +138,107 @@ header h1 span{color:#38bdf8}
 <script>
 const chat = document.getElementById('chat');
 const input = document.getElementById('q');
-async function ask(){
-  const question = input.value.trim();
-  if(!question) return;
-  chat.innerHTML += `<div class="msg user">${question}</div>`;
-  input.value = "";
-  const id = Date.now();
-  chat.innerHTML += `<div class="msg bot" id="${id}">...</div>`;
-  chat.scrollTop = chat.scrollHeight;
-  try{
-    const res = await fetch('http://localhost:3000/chat',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({question})
-    });
-    const data = await res.json();
-    document.getElementById(id).textContent = data.reponse || data.error;
-  }catch(e){
-    document.getElementById(id).textContent = "Erreur: Vérifie que ton API tourne dans Termux";
-  }
-  chat.scrollTop = chat.scrollHeight;
+function renderMath(element) {
+    if (typeof renderMathInElement !== "undefined") {
+        renderMathInElement(element, {
+            delimiters: [
+                {left: "$$", right: "$$", display: true},
+                {left: "$", right: "$", display: false},
+                {left: "\\(", right: "\\)", display: false},
+                {left: "\\[", right: "\\]", display: true}
+            ],
+            throwOnError: false
+        });
+    }
+}
+async function ask() {
+    const question = input.value.trim();
+
+    if (!question) return;
+
+    chat.innerHTML += `
+        <div class="msg user">${question}</div>
+    `;
+
+    input.value = "";
+
+    // On crée l'identifiant AVANT de l'utiliser
+    const id = Date.now();
+
+    // Message de chargement
+    chat.innerHTML += `
+        <div class="msg bot" id="${id}">
+            <div class="typing">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    `;
+
+    chat.scrollTop = chat.scrollHeight;
+
+    try {
+        const res = await fetch('/chat',{
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                question: question
+            })
+        });
+
+        const data = await res.json();
+
+        const botMessage = document.getElementById(id);
+
+        botMessage.innerHTML = marked.parse(
+            data.reponse || data.error
+        );
+
+        renderMath(botMessage);
+
+        // Boutons Copier
+        botMessage.querySelectorAll("pre").forEach(pre => {
+
+            const container = document.createElement("div");
+            container.className = "code-container";
+
+            const button = document.createElement("button");
+            button.className = "copy-btn";
+            button.textContent = "📋 Copier";
+
+            button.onclick = async () => {
+
+                const code = pre.querySelector("code");
+
+                await navigator.clipboard.writeText(
+                    code.textContent
+                );
+
+                button.textContent = "✅ Copié";
+
+                setTimeout(() => {
+                    button.textContent = "📋 Copier";
+                }, 1500);
+            };
+
+            pre.parentNode.insertBefore(container, pre);
+
+            container.appendChild(pre);
+            container.appendChild(button);
+        });
+
+    } catch (e) {
+
+        document.getElementById(id).textContent =
+            "Erreur : Vérifie que ton API tourne dans Termux.";
+
+        console.error(e);
+    }
+
+    chat.scrollTop = chat.scrollHeight;
 }
 input.addEventListener("keypress", e=>{if(e.key==="Enter") ask()});
 </script>
