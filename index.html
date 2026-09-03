@@ -219,6 +219,14 @@ header {
 #newChatBtn:active {
     transform: scale(0.97);
 }
+.history-item {
+    cursor: pointer;
+    transition: transform 0.15s, background 0.15s;
+}
+
+.history-item:active {
+    transform: scale(0.98);
+}
 </style>+
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
@@ -320,8 +328,54 @@ function loadHistory() {
             <small>${conversation.date}</small>
         `;
 
+        // Rendre la conversation cliquable
+        item.addEventListener("click", function () {
+            openConversation(index);
+        });
+
         historyList.appendChild(item);
     });
+}
+function openConversation(index) {
+
+    const history = JSON.parse(
+        localStorage.getItem("bookbook_history")
+    ) || [];
+
+    const conversation = history[index];
+
+    if (!conversation) return;
+
+    // Vider le chat actuel
+    chat.innerHTML = "";
+
+    // Afficher la question
+    const userMessage = document.createElement("div");
+
+    userMessage.className = "msg user";
+    userMessage.textContent = conversation.question;
+
+    chat.appendChild(userMessage);
+
+    // Afficher la réponse
+    const botMessage = document.createElement("div");
+
+    botMessage.className = "msg bot";
+
+    botMessage.innerHTML = marked.parse(
+        conversation.answer || ""
+    );
+
+    chat.appendChild(botMessage);
+
+    // Rendre les formules mathématiques
+    renderMath(botMessage);
+
+    // Fermer le panneau historique
+    historyPanel.style.display = "none";
+
+    // Aller en bas du chat
+    chat.scrollTop = chat.scrollHeight;
 }
 async function ask() {
     const question = input.value.trim();
