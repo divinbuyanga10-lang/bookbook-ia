@@ -159,6 +159,25 @@ header h1 span{color:#38bdf8}
     color: #94a3b8;
     font-size: 14px;
 }
+header {
+    position: relative;
+}
+
+#historyPanel {
+    display: none;
+    position: absolute;
+    top: 75px;
+    right: 15px;
+    width: 280px;
+    max-height: 400px;
+    overflow-y: auto;
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 15px;
+    padding: 15px;
+    z-index: 9999;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
@@ -171,24 +190,16 @@ src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
 <script defer
 src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"
 onload="window.katexAutoRenderLoaded = true">
-const historyBtn = document.getElementById("historyBtn");
-const historyPanel = document.getElementById("historyPanel");
-
-historyBtn.addEventListener("click", () => {
-    if (historyPanel.style.display === "none") {
-        historyPanel.style.display = "block";
-    } else {
-        historyPanel.style.display = "none";
-    }
-});
 </script>
 </head>
 <body>
 <header>
     <div class="header-top">
         <h1>boockBook <span>IA</span></h1>
+
         <button id="historyBtn">📚</button>
     </div>
+
     <div id="historyPanel">
         <h2>📚 Historique</h2>
         <p>Aucune conversation pour le moment.</p>
@@ -317,6 +328,18 @@ saveConversation(question, answer);
 
     chat.scrollTop = chat.scrollHeight;
 }
+const historyBtn = document.getElementById("historyBtn");
+const historyPanel = document.getElementById("historyPanel");
+
+historyBtn.addEventListener("click", function () {
+
+    if (historyPanel.style.display === "block") {
+        historyPanel.style.display = "none";
+    } else {
+        historyPanel.style.display = "block";
+    }
+
+});
 input.addEventListener("keypress", e=>{if(e.key==="Enter") ask()});
 </script>
 </body>
