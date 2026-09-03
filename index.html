@@ -6,7 +6,7 @@
 <title>boockBook IA</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
-body{background:#0f172a;color:white;display:flex;flex-direction:column;height:100vh}
+body{background:#0f172a;color:white;display:flex;flex-direction:column;height:90vh}
 header{padding:15px;text-align:center;border-bottom:1px solid #334155}
 header h1 span{color:#38bdf8}
 #chat{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:12px}
@@ -203,8 +203,7 @@ header {
     color: #94a3b8;
     font-size: 11px;
 }
-</style>
-<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</style>+
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
 <link rel="stylesheet"
@@ -220,13 +219,13 @@ onload="window.katexAutoRenderLoaded = true">
 <body>
 <header>
     <div class="header-top">
-        <h1>boockBook <span>IA</span></h1>
+        <h1>boockcongo <span>IA</span></h1>
 
-        <button id="historyBtn">📚</button>
+        <button id="historyBtn">⏳</button>
     </div>
 
     <div id="historyPanel">
-    <h2>📚 Historique</h2>
+    <h2>⏳ Historique</h2>
 
     <div id="historyList">
         <p>Aucun historique de conversation pour le moment.</p>
@@ -394,18 +393,6 @@ const historyPanel = document.getElementById("historyPanel");
 historyBtn.addEventListener("click", function () {
 
     if (historyPanel.style.display === "block") {
-        historyPanel.style.display = "none";
-    } else {
-        historyPanel.style.display = "block";
-    }
-
-});
-const historyBtn = document.getElementById("historyBtn");
-const historyPanel = document.getElementById("historyPanel");
-
-historyBtn.addEventListener("click", function () {
-
-    if (historyPanel.style.display === "block") {
 
         historyPanel.style.display = "none";
 
@@ -421,3 +408,4 @@ input.addEventListener("keypress", e=>{if(e.key==="Enter") ask()});
 </script>
 </body>
 </html>
+
