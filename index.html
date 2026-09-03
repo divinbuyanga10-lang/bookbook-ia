@@ -137,7 +137,7 @@ header h1 span{color:#38bdf8}
 #historyPanel {
     display: none;
     position: absolute;
-    top: 70px;
+    top: 65px;
     right: 10px;
     width: 280px;
     max-height: 400px;
@@ -146,8 +146,9 @@ header h1 span{color:#38bdf8}
     border: 1px solid #334155;
     border-radius: 15px;
     padding: 15px;
-    z-index: 1000;
+    z-index: 9999;
     text-align: left;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
 }
 
 #historyPanel h2 {
@@ -233,23 +234,23 @@ onload="window.katexAutoRenderLoaded = true">
 </head>
 <body>
 <header>
-    <div id="historyPanel">
-    <h2>⏳ Historique</h2>
+    <div class="header-top">
+        <h1>boockBook <span>IA</span></h1>
 
-    <button id="newChatBtn">➕ Nouvelle conversation</button>
-
-    <div id="historyList">
-        <p>Aucun historique de conversation pour le moment.</p>
+        <button id="historyBtn">📚</button>
     </div>
-</div>
 
     <div id="historyPanel">
-    <h2>⏳ Historique</h2>
+        <h2>📚 Historique</h2>
 
-    <div id="historyList">
-        <p>Aucun historique de conversation pour le moment.</p>
+        <button id="newChatBtn">
+            ➕ Nouvelle conversation
+        </button>
+
+        <div id="historyList">
+            <p>Aucun historique de conversation pour le moment.</p>
+        </div>
     </div>
-</div>
 </header>
 <div id="chat"><div class="msg bot">API connectée ✅ Pose ta question RLC !</div></div>
 <div class="box">
@@ -273,13 +274,22 @@ function renderMath(element) {
     }
 }
 function saveConversation(question, answer) {
-    let history = JSON.parse(localStorage.getItem("bookbook_history")) || [];
+    let history = JSON.parse(
+        localStorage.getItem("bookbook_history")
+    ) || [];
 
     history.push({
         question: question,
         answer: answer,
         date: new Date().toLocaleString("fr-FR")
     });
+
+    localStorage.setItem(
+        "bookbook_history",
+        JSON.stringify(history)
+    );
+}
+
 function loadHistory() {
 
     const historyList = document.getElementById("historyList");
@@ -312,8 +322,6 @@ function loadHistory() {
 
         historyList.appendChild(item);
     });
-}
-    localStorage.setItem("bookbook_history", JSON.stringify(history));
 }
 async function ask() {
     const question = input.value.trim();
