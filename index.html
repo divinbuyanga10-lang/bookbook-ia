@@ -178,6 +178,31 @@ header {
     z-index: 9999;
     box-shadow: 0 10px 30px rgba(0,0,0,0.4);
 }
+.history-item {
+    background: #0f172a;
+    border: 1px solid #334155;
+    border-radius: 10px;
+    padding: 10px;
+    margin-top: 8px;
+    cursor: pointer;
+}
+
+.history-item:active {
+    transform: scale(0.98);
+}
+
+.history-question {
+    font-size: 14px;
+    color: white;
+    line-height: 1.4;
+}
+
+.history-item small {
+    display: block;
+    margin-top: 5px;
+    color: #94a3b8;
+    font-size: 11px;
+}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
@@ -201,9 +226,12 @@ onload="window.katexAutoRenderLoaded = true">
     </div>
 
     <div id="historyPanel">
-        <h2>📚 Historique</h2>
-        <p>Aucune conversation pour le moment.</p>
+    <h2>📚 Historique</h2>
+
+    <div id="historyList">
+        <p>Aucun historique de conversation pour le moment.</p>
     </div>
+</div>
 </header>
 <div id="chat"><div class="msg bot">API connectée ✅ Pose ta question RLC !</div></div>
 <div class="box">
@@ -234,7 +262,39 @@ function saveConversation(question, answer) {
         answer: answer,
         date: new Date().toLocaleString("fr-FR")
     });
+function loadHistory() {
 
+    const historyList = document.getElementById("historyList");
+
+    let history = JSON.parse(
+        localStorage.getItem("bookbook_history")
+    ) || [];
+
+    if (history.length === 0) {
+        historyList.innerHTML =
+            "<p>Aucun historique de conversation pour le moment.</p>";
+        return;
+    }
+
+    historyList.innerHTML = "";
+
+    history.forEach((conversation, index) => {
+
+        const item = document.createElement("div");
+
+        item.className = "history-item";
+
+        item.innerHTML = `
+            <div class="history-question">
+                💬 ${conversation.question}
+            </div>
+
+            <small>${conversation.date}</small>
+        `;
+
+        historyList.appendChild(item);
+    });
+}
     localStorage.setItem("bookbook_history", JSON.stringify(history));
 }
 async function ask() {
@@ -337,6 +397,23 @@ historyBtn.addEventListener("click", function () {
         historyPanel.style.display = "none";
     } else {
         historyPanel.style.display = "block";
+    }
+
+});
+const historyBtn = document.getElementById("historyBtn");
+const historyPanel = document.getElementById("historyPanel");
+
+historyBtn.addEventListener("click", function () {
+
+    if (historyPanel.style.display === "block") {
+
+        historyPanel.style.display = "none";
+
+    } else {
+
+        historyPanel.style.display = "block";
+
+        loadHistory();
     }
 
 });
