@@ -203,6 +203,21 @@ header {
     color: #94a3b8;
     font-size: 11px;
 }
+#newChatBtn {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 12px;
+    border: none;
+    border-radius: 10px;
+    background: #38bdf8;
+    color: #020617;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#newChatBtn:active {
+    transform: scale(0.97);
+}
 </style>+
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
@@ -218,11 +233,15 @@ onload="window.katexAutoRenderLoaded = true">
 </head>
 <body>
 <header>
-    <div class="header-top">
-        <h1>boockcongo <span>IA</span></h1>
+    <div id="historyPanel">
+    <h2>⏳ Historique</h2>
 
-        <button id="historyBtn">⏳</button>
+    <button id="newChatBtn">➕ Nouvelle conversation</button>
+
+    <div id="historyList">
+        <p>Aucun historique de conversation pour le moment.</p>
     </div>
+</div>
 
     <div id="historyPanel">
     <h2>⏳ Historique</h2>
@@ -403,6 +422,21 @@ historyBtn.addEventListener("click", function () {
         loadHistory();
     }
 
+});
+const newChatBtn = document.getElementById("newChatBtn");
+
+newChatBtn.addEventListener("click", function () {
+
+    chat.innerHTML = `
+        <div class="msg bot">
+            Nouvelle conversation ✅<br>
+            Pose-moi ta question !
+        </div>
+    `;
+
+    historyPanel.style.display = "none";
+
+    input.focus();
 });
 input.addEventListener("keypress", e=>{if(e.key==="Enter") ask()});
 </script>
