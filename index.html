@@ -114,6 +114,51 @@ header h1 span{color:#38bdf8}
         transform: translateY(-4px);
     }
 }
+.header-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#historyBtn {
+    background: #1e293b;
+    color: white;
+    border: 1px solid #334155;
+    padding: 10px 14px;
+    border-radius: 12px;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+#historyBtn:active {
+    transform: scale(0.95);
+}
+
+#historyPanel {
+    display: none;
+    position: absolute;
+    top: 70px;
+    right: 10px;
+    width: 280px;
+    max-height: 400px;
+    overflow-y: auto;
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 15px;
+    padding: 15px;
+    z-index: 1000;
+    text-align: left;
+}
+
+#historyPanel h2 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+#historyPanel p {
+    color: #94a3b8;
+    font-size: 14px;
+}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
@@ -126,10 +171,29 @@ src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
 <script defer
 src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"
 onload="window.katexAutoRenderLoaded = true">
+const historyBtn = document.getElementById("historyBtn");
+const historyPanel = document.getElementById("historyPanel");
+
+historyBtn.addEventListener("click", () => {
+    if (historyPanel.style.display === "none") {
+        historyPanel.style.display = "block";
+    } else {
+        historyPanel.style.display = "none";
+    }
+});
 </script>
 </head>
 <body>
-<header><h1>boockBook <span>IA</span> - Connecté à ton API</h1></header>
+<header>
+    <div class="header-top">
+        <h1>boockBook <span>IA</span></h1>
+        <button id="historyBtn">📚</button>
+    </div>
+    <div id="historyPanel">
+        <h2>📚 Historique</h2>
+        <p>Aucune conversation pour le moment.</p>
+    </div>
+</header>
 <div id="chat"><div class="msg bot">API connectée ✅ Pose ta question RLC !</div></div>
 <div class="box">
 <input id="q" placeholder="Ex: Calcule Z pour R=100, L=10mH, C=50uF">
@@ -150,6 +214,17 @@ function renderMath(element) {
             throwOnError: false
         });
     }
+}
+function saveConversation(question, answer) {
+    let history = JSON.parse(localStorage.getItem("bookbook_history")) || [];
+
+    history.push({
+        question: question,
+        answer: answer,
+        date: new Date().toLocaleString("fr-FR")
+    });
+
+    localStorage.setItem("bookbook_history", JSON.stringify(history));
 }
 async function ask() {
     const question = input.value.trim();
@@ -193,9 +268,11 @@ async function ask() {
 
         const botMessage = document.getElementById(id);
 
-        botMessage.innerHTML = marked.parse(
-            data.reponse || data.error
-        );
+        const answer = data.reponse || data.error;
+
+botMessage.innerHTML = marked.parse(answer);
+
+saveConversation(question, answer);
 
         renderMath(botMessage);
 
