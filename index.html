@@ -1,507 +1,1181 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>boockBook IA</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
-body{background:#0f172a;color:white;display:flex;flex-direction:column;height:90vh}
-header{padding:15px;text-align:center;border-bottom:1px solid #334155}
-header h1 span{color:#38bdf8}
-#chat{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:12px}
-.msg{max-width:85%;padding:12px 16px;border-radius:18px;font-size:14px;line-height:1.5}
-.user{align-self:flex-end;background:#2563eb}
-.bot{align-self:flex-start;background:#1e293b;border:1px solid #334155}
-.box{display:flex;padding:12px;gap:8px;background:#1e293b}
-.box input{flex:1;padding:14px;border-radius:30px;border:none;background:#0f172a;color:white;outline:none}
-.box button{padding:14px 20px;border-radius:30px;border:none;background:#38bdf8;font-weight:bold}
-.bot h1,
-.bot h2,
-.bot h3 {
-    margin: 12px 0 8px;
-    line-height: 1.3;
-}
 
-.bot p {
-    margin: 8px 0;
-}
-
-.bot ul,
-.bot ol {
-    margin: 8px 0;
-    padding-left: 25px;
-}
-
-.bot li {
-    margin: 5px 0;
-}
-
-.bot code {
-    background: #0f172a;
-    padding: 3px 6px;
-    border-radius: 5px;
-    font-family: monospace;
-    font-size: 13px;
-}
-
-.bot pre {
-    background: #020617;
-    padding: 14px;
-    border-radius: 10px;
-    overflow-x: auto;
-    margin: 12px 0;
-    border: 1px solid #334155;
-}
-
-.bot pre code {
-    background: none;
-    padding: 0;
-    line-height: 1.5;
-}
-.bot .code-container {
-    position: relative;
-    margin: 12px 0;
-}
-
-.bot .copy-btn {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    background: #334155;
-    color: white;
-    border: none;
-    padding: 6px 10px;
-    border-radius: 6px;
-    font-size: 12px;
-    cursor: pointer;
-}
-
-.bot .copy-btn:active {
-    transform: scale(0.95);
-}
-.typing {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    padding: 4px 0;
-}
-
-.typing span {
-    width: 7px;
-    height: 7px;
-    background: #38bdf8;
-    border-radius: 50%;
-    animation: typing 1.4s infinite ease-in-out;
-}
-
-.typing span:nth-child(2) {
-    animation-delay: 0.2s;
-}
-
-.typing span:nth-child(3) {
-    animation-delay: 0.4s;
-}
-
-@keyframes typing {
-    0%, 60%, 100% {
-        opacity: 0.3;
-        transform: translateY(0);
-    }
-
-    30% {
-        opacity: 1;
-        transform: translateY(-4px);
-    }
-}
-.header-top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-#historyBtn {
-    background: #1e293b;
-    color: white;
-    border: 1px solid #334155;
-    padding: 10px 14px;
-    border-radius: 12px;
-    font-size: 18px;
-    cursor: pointer;
-}
-
-#historyBtn:active {
-    transform: scale(0.95);
-}
-
-#historyPanel {
-    display: none;
-    position: absolute;
-    top: 65px;
-    right: 10px;
-    width: 280px;
-    max-height: 400px;
-    overflow-y: auto;
-    background: #1e293b;
-    border: 1px solid #334155;
-    border-radius: 15px;
-    padding: 15px;
-    z-index: 9999;
-    text-align: left;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-}
-
-#historyPanel h2 {
-    font-size: 18px;
-    margin-bottom: 10px;
-}
-
-#historyPanel p {
-    color: #94a3b8;
-    font-size: 14px;
-}
-header {
-    position: relative;
-}
-
-#historyPanel {
-    display: none;
-    position: absolute;
-    top: 75px;
-    right: 15px;
-    width: 280px;
-    max-height: 400px;
-    overflow-y: auto;
-    background: #1e293b;
-    border: 1px solid #334155;
-    border-radius: 15px;
-    padding: 15px;
-    z-index: 9999;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-}
-.history-item {
-    background: #0f172a;
-    border: 1px solid #334155;
-    border-radius: 10px;
-    padding: 10px;
-    margin-top: 8px;
-    cursor: pointer;
-}
-
-.history-item:active {
-    transform: scale(0.98);
-}
-
-.history-question {
-    font-size: 14px;
-    color: white;
-    line-height: 1.4;
-}
-
-.history-item small {
-    display: block;
-    margin-top: 5px;
-    color: #94a3b8;
-    font-size: 11px;
-}
-#newChatBtn {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 12px;
-    border: none;
-    border-radius: 10px;
-    background: #38bdf8;
-    color: #020617;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-#newChatBtn:active {
-    transform: scale(0.97);
-}
-.history-item {
-    cursor: pointer;
-    transition: transform 0.15s, background 0.15s;
-}
-
-.history-item:active {
-    transform: scale(0.98);
-}
-</style>+
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
 <link rel="stylesheet"
 href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
 
 <script defer
-src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
-<script defer
-src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"
-onload="window.katexAutoRenderLoaded = true">
+src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js">
 </script>
-</head>
-<body>
-<header>
-    <div class="header-top">
-        <h1>boockBook <span>IA</span></h1>
 
-        <button id="historyBtn">📚</button>
-    </div>
+<script defer
+src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js">
+</script>
 
-    <div id="historyPanel">
-        <h2>📚 Historique</h2>
+<style>
 
-        <button id="newChatBtn">
-            ➕ Nouvelle conversation
-        </button>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
 
-        <div id="historyList">
-            <p>Aucun historique de conversation pour le moment.</p>
-        </div>
-    </div>
-</header>
-<div id="chat"><div class="msg bot">API connectée ✅ Pose ta question RLC !</div></div>
-<div class="box">
-<input id="q" placeholder="Ex: Calcule Z pour R=100, L=10mH, C=50uF">
-<button onclick="ask()">Envoyer</button>
-</div>
-<script>
-const chat = document.getElementById('chat');
-const input = document.getElementById('q');
-function renderMath(element) {
-    if (typeof renderMathInElement !== "undefined") {
-        renderMathInElement(element, {
-            delimiters: [
-                {left: "$$", right: "$$", display: true},
-                {left: "$", right: "$", display: false},
-                {left: "\\(", right: "\\)", display: false},
-                {left: "\\[", right: "\\]", display: true}
-            ],
-            throwOnError: false
-        });
+body{
+    background:#0f172a;
+    color:white;
+    display:flex;
+    height:100vh;
+    height:100dvh;
+    overflow:hidden;
+}
+
+/* ================= HISTORIQUE ================= */
+
+#historyPanel{
+    width:260px;
+    min-width:260px;
+    background:#1e293b;
+    border-right:1px solid #334155;
+    padding:12px;
+    overflow-y:auto;
+    display:flex;
+    flex-direction:column;
+    transition:0.3s;
+}
+
+#historyPanel h2{
+    font-size:16px;
+    margin-bottom:10px;
+}
+
+#newChatBtn{
+    width:100%;
+    padding:10px;
+    border-radius:8px;
+    border:none;
+    background:#38bdf8;
+    color:#020617;
+    font-weight:bold;
+    margin-bottom:12px;
+    cursor:pointer;
+}
+
+#historyList div{
+    padding:10px;
+    border-radius:6px;
+    cursor:pointer;
+    font-size:13px;
+    word-break:break-word;
+}
+
+#historyList div:hover{
+    background:#334155;
+}
+
+/* ================= APPLICATION ================= */
+
+.main{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    min-width:0;
+}
+
+/* ================= HEADER ================= */
+
+header{
+    padding:12px 15px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-bottom:1px solid #334155;
+    background:#1e293b;
+}
+
+header h1{
+    font-size:18px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+header h1 span{
+    color:#38bdf8;
+}
+
+#menuBtn{
+    display:none;
+    font-size:22px;
+    background:none;
+    border:none;
+    color:white;
+    cursor:pointer;
+}
+
+/* ================= CHAT ================= */
+
+#chat{
+    flex:1;
+    overflow-y:auto;
+    padding:20px;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+.msg{
+    max-width:85%;
+    padding:14px 17px;
+    border-radius:18px;
+    font-size:15px;
+    line-height:1.7;
+    word-wrap:break-word;
+    overflow-wrap:anywhere;
+}
+
+.user{
+    align-self:flex-end;
+    background:#2563eb;
+    line-height:1.5;
+}
+
+.bot{
+    align-self:flex-start;
+    background:#1e293b;
+    border:1px solid #334155;
+}
+
+/* ================= STYLE DES RÉPONSES IA ================= */
+
+.bot p{
+    margin:0 0 12px 0;
+}
+
+.bot p:last-child{
+    margin-bottom:0;
+}
+
+.bot h1{
+    font-size:22px;
+    margin:18px 0 10px;
+    line-height:1.3;
+}
+
+.bot h2{
+    font-size:19px;
+    margin:16px 0 9px;
+    line-height:1.35;
+}
+
+.bot h3{
+    font-size:17px;
+    margin:14px 0 8px;
+    line-height:1.4;
+}
+
+.bot ul,
+.bot ol{
+    margin:10px 0 14px;
+    padding-left:25px;
+}
+
+.bot li{
+    margin:6px 0;
+    padding-left:3px;
+}
+
+.bot strong{
+    font-weight:700;
+}
+
+.bot em{
+    font-style:italic;
+}
+
+.bot code{
+    font-family:monospace;
+    font-size:13px;
+    background:#0f172a;
+    padding:3px 6px;
+    border-radius:5px;
+}
+
+.bot pre{
+    background:#020617;
+    border:1px solid #334155;
+    border-radius:10px;
+    padding:14px;
+    margin:14px 0;
+    overflow-x:auto;
+    white-space:pre;
+}
+
+.bot pre code{
+    background:none;
+    padding:0;
+    font-size:13px;
+    line-height:1.6;
+}
+
+.bot blockquote{
+    border-left:3px solid #38bdf8;
+    padding-left:12px;
+    margin:12px 0;
+    color:#cbd5e1;
+}
+
+.bot a{
+    color:#38bdf8;
+    text-decoration:none;
+}
+
+.bot a:hover{
+    text-decoration:underline;
+}
+
+.bot table{
+    width:100%;
+    border-collapse:collapse;
+    margin:14px 0;
+    font-size:14px;
+}
+
+.bot th,
+.bot td{
+    border:1px solid #334155;
+    padding:8px 10px;
+    text-align:left;
+}
+
+.bot th{
+    background:#0f172a;
+}
+
+.bot .katex-display{
+    overflow-x:auto;
+    overflow-y:hidden;
+    padding:8px 0;
+}
+
+/* ================= ZONE DE SAISIE ================= */
+
+.box{
+    display:flex;
+    padding:10px;
+    gap:8px;
+    background:#1e293b;
+    align-items:center;
+}
+
+.box input{
+    flex:1;
+    min-width:0;
+    padding:14px;
+    border-radius:30px;
+    border:none;
+    background:#0f172a;
+    color:white;
+    outline:none;
+    font-size:16px;
+}
+
+.box button{
+    padding:14px 20px;
+    border-radius:30px;
+    border:none;
+    background:#38bdf8;
+    font-weight:bold;
+    cursor:pointer;
+    white-space:nowrap;
+}
+
+#sendBtn:active{
+    transform:scale(0.96);
+}
+
+/* ================= BOUTONS ================= */
+
+.icon{
+    font-size:20px;
+    background:#334155 !important;
+    color:white;
+    width:42px;
+    height:42px;
+    padding:0 !important;
+    border-radius:50% !important;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+}
+
+/* ================= TYPING ================= */
+
+.typing{
+    display:flex;
+    align-items:center;
+    gap:5px;
+}
+
+.typing span{
+    width:7px;
+    height:7px;
+    background:#38bdf8;
+    border-radius:50%;
+    animation:typing 1.4s infinite ease-in-out;
+}
+
+.typing span:nth-child(2){
+    animation-delay:0.2s;
+}
+
+.typing span:nth-child(3){
+    animation-delay:0.4s;
+}
+
+@keyframes typing{
+
+    0%,60%,100%{
+        opacity:0.3;
+        transform:translateY(0);
+    }
+
+    30%{
+        opacity:1;
+        transform:translateY(-4px);
     }
 }
-function saveConversation(question, answer) {
-    let history = JSON.parse(
-        localStorage.getItem("bookbook_history")
-    ) || [];
 
-    history.push({
-        question: question,
-        answer: answer,
-        date: new Date().toLocaleString("fr-FR")
-    });
+/* ================= OVERLAY ================= */
 
-    localStorage.setItem(
-        "bookbook_history",
-        JSON.stringify(history)
-    );
+#overlay{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.5);
+    z-index:9;
 }
 
-function loadHistory() {
+/* ================= TABLETTE ================= */
 
-    const historyList = document.getElementById("historyList");
+@media(min-width:769px) and (max-width:1024px){
 
-    let history = JSON.parse(
-        localStorage.getItem("bookbook_history")
-    ) || [];
+    #historyPanel{
+        width:220px;
+        min-width:220px;
+    }
 
-    if (history.length === 0) {
-        historyList.innerHTML =
-            "<p>Aucun historique de conversation pour le moment.</p>";
+    .msg{
+        max-width:90%;
+    }
+}
+
+/* ================= MOBILE ================= */
+
+@media(max-width:768px){
+
+    #historyPanel{
+        position:fixed;
+        left:-100%;
+        top:0;
+        bottom:0;
+        z-index:10;
+        width:80%;
+        max-width:300px;
+    }
+
+    #historyPanel.open{
+        left:0;
+    }
+
+    #overlay.show{
+        display:block;
+    }
+
+    #menuBtn{
+        display:block;
+    }
+
+    header h1{
+        font-size:16px;
+    }
+
+    #chat{
+        padding:12px;
+    }
+
+    .msg{
+        max-width:95%;
+        font-size:15px;
+        line-height:1.65;
+    }
+
+    .bot h1{
+        font-size:20px;
+    }
+
+    .bot h2{
+        font-size:18px;
+    }
+
+    .bot h3{
+        font-size:16px;
+    }
+
+    .bot pre code{
+        font-size:12px;
+    }
+
+    .box{
+        padding:8px;
+    }
+
+    .box input{
+        padding:12px;
+        font-size:16px;
+    }
+
+    .box button{
+        padding:12px 16px;
+    }
+
+    .box .icon{
+        width:40px;
+        height:40px;
+        font-size:18px;
+    }
+
+    #sendBtn{
+        padding:12px 15px;
+    }
+}
+
+/* ================= PETITS TELEPHONES ================= */
+
+@media(max-width:400px){
+
+    #sendBtn{
+        font-size:0;
+        width:42px;
+        height:42px;
+        padding:0;
+        border-radius:50%;
+    }
+
+    #sendBtn::after{
+        content:"➤";
+        font-size:18px;
+    }
+
+    .msg{
+        max-width:97%;
+        padding:12px 14px;
+    }
+
+    header h1{
+        font-size:15px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="overlay" onclick="toggleMenu()"></div>
+
+<!-- ================= HISTORIQUE ================= -->
+
+<div id="historyPanel">
+
+    <h2>📚 Historique</h2>
+
+    <button id="newChatBtn">
+        ➕ Nouvelle conversation
+    </button>
+
+    <div id="historyList">
+        <p>Aucun historique</p>
+    </div>
+
+</div>
+
+<!-- ================= APPLICATION ================= -->
+
+<div class="main">
+
+<header>
+
+    <button id="menuBtn" onclick="toggleMenu()">
+        ☰
+    </button>
+
+    <h1>
+        boockBook <span>IA</span>
+    </h1>
+
+    <div style="width:30px"></div>
+
+</header>
+
+<!-- ================= CHAT ================= -->
+
+<div id="chat">
+
+    <div class="msg bot">
+        API connectée ✅ Pose ta question RLC !
+    </div>
+
+</div>
+
+<!-- ================= SAISIE ================= -->
+
+<div class="box">
+
+    <input
+        id="q"
+        placeholder="Ex: R=100, L=10mH..."
+    >
+
+    <button id="sendBtn">
+        Envoyer
+    </button>
+
+</div>
+
+</div>
+
+<script>
+
+/* ================= VARIABLES ================= */
+
+const chat =
+    document.getElementById("chat");
+
+const input =
+    document.getElementById("q");
+
+const historyList =
+    document.getElementById("historyList");
+
+const historyPanel =
+    document.getElementById("historyPanel");
+
+const newChatBtn =
+    document.getElementById("newChatBtn");
+
+const sendBtn =
+    document.getElementById("sendBtn");
+
+
+/* ================= MENU ================= */
+
+function toggleMenu(){
+
+    historyPanel.classList.toggle("open");
+
+    document
+        .getElementById("overlay")
+        .classList.toggle("show");
+
+}
+
+
+/* ================= HISTORIQUE ================= */
+
+let conversations =
+    JSON.parse(
+        localStorage.getItem(
+            "boock_history"
+        ) || "[]"
+    );
+
+
+/* ================= SAUVEGARDER ================= */
+
+function saveCurrent(){
+
+    if(chat.innerText.length < 10){
         return;
     }
 
-    historyList.innerHTML = "";
+    const html =
+        chat.innerHTML;
 
-    history.forEach((conversation, index) => {
+    const text =
+        chat.innerText;
 
-        const item = document.createElement("div");
+    let title =
+        text.substring(0,40);
 
-        item.className = "history-item";
 
-        item.innerHTML = `
-            <div class="history-question">
-                💬 ${conversation.question}
-            </div>
+    /*
+       Évite les doublons exacts
+    */
 
-            <small>${conversation.date}</small>
-        `;
+    conversations =
+        conversations.filter(
+            c => c.html !== html
+        );
 
-        // Rendre la conversation cliquable
-        item.addEventListener("click", function () {
-            openConversation(index);
-        });
 
-        historyList.appendChild(item);
+    conversations.push({
+
+        title:title,
+
+        html:html,
+
+        date:Date.now()
+
     });
-}
-function openConversation(index) {
 
-    const history = JSON.parse(
-        localStorage.getItem("bookbook_history")
-    ) || [];
 
-    const conversation = history[index];
+    /*
+       Maximum 20 conversations
+    */
 
-    if (!conversation) return;
+    if(conversations.length > 20){
 
-    // Vider le chat actuel
-    chat.innerHTML = "";
+        conversations.shift();
 
-    // Afficher la question
-    const userMessage = document.createElement("div");
+    }
 
-    userMessage.className = "msg user";
-    userMessage.textContent = conversation.question;
 
-    chat.appendChild(userMessage);
-
-    // Afficher la réponse
-    const botMessage = document.createElement("div");
-
-    botMessage.className = "msg bot";
-
-    botMessage.innerHTML = marked.parse(
-        conversation.answer || ""
+    localStorage.setItem(
+        "boock_history",
+        JSON.stringify(
+            conversations
+        )
     );
 
-    chat.appendChild(botMessage);
 
-    // Rendre les formules mathématiques
-    renderMath(botMessage);
+    localStorage.setItem(
+        "current_chat",
+        html
+    );
 
-    // Fermer le panneau historique
-    historyPanel.style.display = "none";
 
-    // Aller en bas du chat
-    chat.scrollTop = chat.scrollHeight;
+    renderHist();
+
 }
-async function ask() {
-    const question = input.value.trim();
 
-    if (!question) return;
 
-    chat.innerHTML += `
-        <div class="msg user">${question}</div>
+/* ================= AFFICHER HISTORIQUE ================= */
+
+function renderHist(){
+
+    if(!conversations.length){
+
+        historyList.innerHTML =
+            "<p>Aucun historique</p>";
+
+        return;
+
+    }
+
+
+    historyList.innerHTML = "";
+
+
+    conversations
+        .slice()
+        .reverse()
+        .forEach((conversation,index)=>{
+
+            const div =
+                document.createElement("div");
+
+
+            div.textContent =
+                conversation.title;
+
+
+            div.onclick = function(){
+
+                chat.innerHTML =
+                    conversation.html;
+
+
+                if(window.innerWidth <= 768){
+
+                    toggleMenu();
+
+                }
+
+            };
+
+
+            historyList.appendChild(div);
+
+        });
+
+}
+
+
+/* ================= NOUVELLE CONVERSATION ================= */
+
+newChatBtn.onclick = function(){
+
+    saveCurrent();
+
+
+    chat.innerHTML = `
+
+        <div class="msg bot">
+            Nouvelle conversation ✅
+        </div>
+
     `;
+
+
+    localStorage.removeItem(
+        "current_chat"
+    );
+
+
+    if(window.innerWidth <= 768){
+
+        toggleMenu();
+
+    }
+
+
+    input.focus();
+
+};
+
+
+/* ================= MARKDOWN + MATH ================= */
+
+function formatBotMessage(element){
+
+    if(
+        typeof marked !== "undefined"
+    ){
+
+        const text =
+            element.textContent;
+
+        element.innerHTML =
+            marked.parse(text);
+
+    }
+
+
+    if(
+        typeof renderMathInElement !==
+        "undefined"
+    ){
+
+        renderMathInElement(
+            element,
+            {
+
+                delimiters:[
+
+                    {
+                        left:"$$",
+                        right:"$$",
+                        display:true
+                    },
+
+                    {
+                        left:"$",
+                        right:"$",
+                        display:false
+                    },
+
+                    {
+                        left:"\\(",
+                        right:"\\)",
+                        display:false
+                    },
+
+                    {
+                        left:"\\[",
+                        right:"\\]",
+                        display:true
+                    }
+
+                ],
+
+                throwOnError:false
+
+            }
+        );
+
+    }
+
+}
+
+
+/* ================= QUESTION ================= */
+
+async function ask(){
+
+    const question =
+        input.value.trim();
+
+
+    if(!question){
+
+        return;
+
+    }
+
+
+    /*
+       Message utilisateur
+    */
+
+    const userMessage =
+        document.createElement("div");
+
+
+    userMessage.className =
+        "msg user";
+
+
+    userMessage.textContent =
+        question;
+
+
+    chat.appendChild(
+        userMessage
+    );
+
 
     input.value = "";
 
-    // On crée l'identifiant AVANT de l'utiliser
-    const id = Date.now();
 
-    // Message de chargement
-    chat.innerHTML += `
-        <div class="msg bot" id="${id}">
-            <div class="typing">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
+    /*
+       Message IA
+    */
+
+    const id =
+        Date.now();
+
+
+    const botMessage =
+        document.createElement("div");
+
+
+    botMessage.className =
+        "msg bot";
+
+
+    botMessage.id =
+        id;
+
+
+    botMessage.innerHTML = `
+
+        <div class="typing">
+
+            <span></span>
+            <span></span>
+            <span></span>
+
         </div>
+
     `;
 
-    chat.scrollTop = chat.scrollHeight;
 
-    try {
-        const res = await fetch('/chat',{
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                question: question
+    chat.appendChild(
+        botMessage
+    );
+
+
+    chat.scrollTop =
+        chat.scrollHeight;
+
+
+    /*
+       API
+    */
+
+    try{
+
+        const messages = [];
+
+document.querySelectorAll("#chat .msg").forEach(msg => {
+
+    messages.push({
+        role: msg.classList.contains("user")
+            ? "user"
+            : "assistant",
+        content: msg.innerText
+    });
+
+});
+
+const res =
+    await fetch("/chat",{
+
+        method:"POST",
+
+        headers:{
+            "Content-Type":
+                "application/json"
+        },
+
+        body:
+            JSON.stringify({
+
+                question: question,
+
+                messages: messages
+
             })
-        });
 
-        const data = await res.json();
+    });
 
-        const botMessage = document.getElementById(id);
 
-        const answer = data.reponse || data.error;
+        if(!res.ok){
 
-botMessage.innerHTML = marked.parse(answer);
+            throw new Error(
+                "HTTP " + res.status
+            );
 
-saveConversation(question, answer);
+        }
 
-        renderMath(botMessage);
 
-        // Boutons Copier
-        botMessage.querySelectorAll("pre").forEach(pre => {
+        const data =
+            await res.json();
 
-            const container = document.createElement("div");
-            container.className = "code-container";
 
-            const button = document.createElement("button");
-            button.className = "copy-btn";
-            button.textContent = "📋 Copier";
+        const answer =
+            data.reponse ||
+            data.error ||
+            "Aucune réponse reçue.";
 
-            button.onclick = async () => {
 
-                const code = pre.querySelector("code");
+        /*
+           Markdown
+        */
 
-                await navigator.clipboard.writeText(
-                    code.textContent
+        botMessage.innerHTML =
+            marked.parse(
+                answer
+            );
+
+
+        /*
+           Mathématiques
+        */
+
+        if(
+            typeof renderMathInElement !==
+            "undefined"
+        ){
+
+            renderMathInElement(
+                botMessage,
+                {
+
+                    delimiters:[
+
+                        {
+                            left:"$$",
+                            right:"$$",
+                            display:true
+                        },
+
+                        {
+                            left:"$",
+                            right:"$",
+                            display:false
+                        },
+
+                        {
+                            left:"\\(",
+                            right:"\\)",
+                            display:false
+                        },
+
+                        {
+                            left:"\\[",
+                            right:"\\]",
+                            display:true
+                        }
+
+                    ],
+
+                    throwOnError:false
+
+                }
+            );
+
+        }
+
+
+        /*
+           Bouton copier pour le code
+        */
+
+        botMessage
+            .querySelectorAll("pre")
+            .forEach(pre=>{
+
+                const button =
+                    document.createElement(
+                        "button"
+                    );
+
+
+                button.textContent =
+                    "📋 Copier";
+
+
+                button.className =
+                    "copy-btn";
+
+
+                button.style.position =
+                    "absolute";
+
+
+                button.style.top =
+                    "8px";
+
+
+                button.style.right =
+                    "8px";
+
+
+                button.onclick =
+                    async function(){
+
+                        const code =
+                            pre.querySelector(
+                                "code"
+                            );
+
+
+                        if(!code){
+
+                            return;
+
+                        }
+
+
+                        await navigator
+                            .clipboard
+                            .writeText(
+                                code.textContent
+                            );
+
+
+                        button.textContent =
+                            "✅ Copié";
+
+
+                        setTimeout(
+                            function(){
+
+                                button.textContent =
+                                    "📋 Copier";
+
+                            },
+                            1500
+                        );
+
+                    };
+
+
+                pre.style.position =
+                    "relative";
+
+
+                pre.appendChild(
+                    button
                 );
 
-                button.textContent = "✅ Copié";
+            });
 
-                setTimeout(() => {
-                    button.textContent = "📋 Copier";
-                }, 1500);
-            };
 
-            pre.parentNode.insertBefore(container, pre);
+        /*
+           Sauvegarde
+        */
 
-            container.appendChild(pre);
-            container.appendChild(button);
-        });
+        saveCurrent();
 
-    } catch (e) {
 
-        document.getElementById(id).textContent =
-            "Erreur : Vérifie que ton API tourne dans Termux.";
+    }
+    catch(error){
 
-        console.error(e);
+        console.error(
+            error
+        );
+
+
+        botMessage.textContent =
+            "Erreur : API non disponible.";
+
+
     }
 
-    chat.scrollTop = chat.scrollHeight;
+
+    chat.scrollTop =
+        chat.scrollHeight;
+
 }
-const historyBtn = document.getElementById("historyBtn");
-const historyPanel = document.getElementById("historyPanel");
 
-historyBtn.addEventListener("click", function () {
 
-    if (historyPanel.style.display === "block") {
+/* ================= ENVOYER ================= */
 
-        historyPanel.style.display = "none";
+sendBtn.addEventListener(
+    "click",
+    ask
+);
 
-    } else {
 
-        historyPanel.style.display = "block";
+/* ================= ENTRÉE ================= */
 
-        loadHistory();
+input.addEventListener(
+    "keypress",
+    function(e){
+
+        if(e.key === "Enter"){
+
+            ask();
+
+        }
+
     }
+);
 
-});
-const newChatBtn = document.getElementById("newChatBtn");
 
-newChatBtn.addEventListener("click", function () {
+/* ================= CHARGER HISTORIQUE ================= */
 
-    chat.innerHTML = `
-        <div class="msg bot">
-            Nouvelle conversation ✅<br>
-            Pose-moi ta question !
-        </div>
-    `;
+renderHist();
 
-    historyPanel.style.display = "none";
 
-    input.focus();
-});
-input.addEventListener("keypress", e=>{if(e.key==="Enter") ask()});
+/* ================= RESTAURER CHAT ================= */
+
+const saved =
+    localStorage.getItem(
+        "current_chat"
+    );
+
+
+if(saved){
+
+    chat.innerHTML =
+        saved;
+
+}
+
 </script>
+
 </body>
 </html>
-
