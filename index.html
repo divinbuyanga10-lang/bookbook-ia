@@ -2,778 +2,1001 @@
 <html lang="fr">
 
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>boockBook IA</title>
-
-<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-
-<link rel="stylesheet"
-href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
-
-<script defer
-src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js">
-</script>
-
-<script defer
-src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js">
-</script>
-
-<style>
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial,sans-serif;
-}
-
-body{
-    background:#0f172a;
-    color:white;
-    display:flex;
-    height:100vh;
-    height:100dvh;
-    overflow:hidden;
-}
-
-/* ================= HISTORIQUE ================= */
-
-#historyPanel{
-    width:260px;
-    min-width:260px;
-    background:#1e293b;
-    border-right:1px solid #334155;
-    padding:12px;
-    overflow-y:auto;
-    display:flex;
-    flex-direction:column;
-    transition:0.3s;
-}
-
-#historyPanel h2{
-    font-size:16px;
-    margin-bottom:10px;
-}
-
-#newChatBtn{
-    width:100%;
-    padding:10px;
-    border-radius:8px;
-    border:none;
-    background:#38bdf8;
-    color:#020617;
-    font-weight:bold;
-    margin-bottom:12px;
-    cursor:pointer;
-}
-
-#historyList div{
-    padding:10px;
-    border-radius:6px;
-    cursor:pointer;
-    font-size:13px;
-    word-break:break-word;
-}
-
-#historyList div:hover{
-    background:#334155;
-}
-
-/* ================= APPLICATION ================= */
-
-.main{
-    flex:1;
-    display:flex;
-    flex-direction:column;
-    min-width:0;
-}
-
-/* ================= HEADER ================= */
-
-header{
-    padding:12px 15px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    border-bottom:1px solid #334155;
-    background:#1e293b;
-}
-
-header h1{
-    font-size:18px;
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
-}
-
-header h1 span{
-    color:#38bdf8;
-}
-
-#menuBtn{
-    display:none;
-    font-size:22px;
-    background:none;
-    border:none;
-    color:white;
-    cursor:pointer;
-}
-
-/* ================= CHAT ================= */
-
-#chat{
-    flex:1;
-    overflow-y:auto;
-    padding:20px;
-    display:flex;
-    flex-direction:column;
-    gap:12px;
-}
-
-.msg{
-    max-width:85%;
-    padding:14px 17px;
-    border-radius:18px;
-    font-size:15px;
-    line-height:1.7;
-    word-wrap:break-word;
-    overflow-wrap:anywhere;
-}
-
-.user{
-    align-self:flex-end;
-    background:#2563eb;
-    line-height:1.5;
-}
-
-.bot{
-    align-self:flex-start;
-    background:#1e293b;
-    border:1px solid #334155;
-}
-
-/* ================= STYLE DES RÉPONSES IA ================= */
-
-.bot p{
-    margin:0 0 12px 0;
-}
-
-.bot p:last-child{
-    margin-bottom:0;
-}
-
-.bot h1{
-    font-size:22px;
-    margin:18px 0 10px;
-    line-height:1.3;
-}
-
-.bot h2{
-    font-size:19px;
-    margin:16px 0 9px;
-    line-height:1.35;
-}
-
-.bot h3{
-    font-size:17px;
-    margin:14px 0 8px;
-    line-height:1.4;
-}
-
-.bot ul,
-.bot ol{
-    margin:10px 0 14px;
-    padding-left:25px;
-}
-
-.bot li{
-    margin:6px 0;
-    padding-left:3px;
-}
-
-.bot strong{
-    font-weight:700;
-}
-
-.bot em{
-    font-style:italic;
-}
-
-.bot code{
-    font-family:monospace;
-    font-size:13px;
-    background:#0f172a;
-    padding:3px 6px;
-    border-radius:5px;
-}
-
-.bot pre{
-    background:#020617;
-    border:1px solid #334155;
-    border-radius:10px;
-    padding:14px;
-    margin:14px 0;
-    overflow-x:auto;
-    white-space:pre;
-}
-
-.bot pre code{
-    background:none;
-    padding:0;
-    font-size:13px;
-    line-height:1.6;
-}
-
-.bot blockquote{
-    border-left:3px solid #38bdf8;
-    padding-left:12px;
-    margin:12px 0;
-    color:#cbd5e1;
-}
-
-.bot a{
-    color:#38bdf8;
-    text-decoration:none;
-}
-
-.bot a:hover{
-    text-decoration:underline;
-}
-
-.bot table{
-    width:100%;
-    border-collapse:collapse;
-    margin:14px 0;
-    font-size:14px;
-}
-
-.bot th,
-.bot td{
-    border:1px solid #334155;
-    padding:8px 10px;
-    text-align:left;
-}
-
-.bot th{
-    background:#0f172a;
-}
-
-.bot .katex-display{
-    overflow-x:auto;
-    overflow-y:hidden;
-    padding:8px 0;
-}
-
-/* ================= ZONE DE SAISIE ================= */
-
-.box{
-    display:flex;
-    padding:10px;
-    gap:8px;
-    background:#1e293b;
-    align-items:center;
-}
-
-.box input{
-    flex:1;
-    min-width:0;
-    padding:14px;
-    border-radius:30px;
-    border:none;
-    background:#0f172a;
-    color:white;
-    outline:none;
-    font-size:16px;
-}
-
-.box button{
-    padding:14px 20px;
-    border-radius:30px;
-    border:none;
-    background:#38bdf8;
-    font-weight:bold;
-    cursor:pointer;
-    white-space:nowrap;
-}
-
-#sendBtn:active{
-    transform:scale(0.96);
-}
-
-/* ================= BOUTONS ================= */
-
-.icon{
-    font-size:20px;
-    background:#334155 !important;
-    color:white;
-    width:42px;
-    height:42px;
-    padding:0 !important;
-    border-radius:50% !important;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    cursor:pointer;
-}
-
-/* ================= TYPING ================= */
-
-.typing{
-    display:flex;
-    align-items:center;
-    gap:5px;
-}
-
-.typing span{
-    width:7px;
-    height:7px;
-    background:#38bdf8;
-    border-radius:50%;
-    animation:typing 1.4s infinite ease-in-out;
-}
-
-.typing span:nth-child(2){
-    animation-delay:0.2s;
-}
-
-.typing span:nth-child(3){
-    animation-delay:0.4s;
-}
-
-@keyframes typing{
-
-    0%,60%,100%{
-        opacity:0.3;
-        transform:translateY(0);
-    }
-
-    30%{
-        opacity:1;
-        transform:translateY(-4px);
-    }
-}
-
-/* ================= OVERLAY ================= */
-
-#overlay{
-    display:none;
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,0.5);
-    z-index:9;
-}
-
-/* ================= TABLETTE ================= */
-
-@media(min-width:769px) and (max-width:1024px){
-
-    #historyPanel{
-        width:220px;
-        min-width:220px;
-    }
-
-    .msg{
-        max-width:90%;
-    }
-}
-
-/* ================= MOBILE ================= */
-
-@media(max-width:768px){
-
-    #historyPanel{
-        position:fixed;
-        left:-100%;
-        top:0;
-        bottom:0;
-        z-index:10;
-        width:80%;
-        max-width:300px;
-    }
-
-    #historyPanel.open{
-        left:0;
-    }
-
-    #overlay.show{
-        display:block;
-    }
-
-    #menuBtn{
-        display:block;
-    }
-
-    header h1{
-        font-size:16px;
-    }
-
-    #chat{
-        padding:12px;
-    }
-
-    .msg{
-        max-width:95%;
-        font-size:15px;
-        line-height:1.65;
-    }
-
-    .bot h1{
-        font-size:20px;
-    }
-
-    .bot h2{
-        font-size:18px;
-    }
-
-    .bot h3{
-        font-size:16px;
-    }
-
-    .bot pre code{
-        font-size:12px;
-    }
-
-    .box{
-        padding:8px;
-    }
-
-    .box input{
-        padding:12px;
-        font-size:16px;
-    }
-
-    .box button{
-        padding:12px 16px;
-    }
-
-    .box .icon{
-        width:40px;
-        height:40px;
-        font-size:18px;
-    }
-
-    #sendBtn{
-        padding:12px 15px;
-    }
-}
-
-/* ================= PETITS TELEPHONES ================= */
-
-@media(max-width:400px){
-
-    #sendBtn{
-        font-size:0;
-        width:42px;
-        height:42px;
-        padding:0;
-        border-radius:50%;
-    }
-
-    #sendBtn::after{
-        content:"➤";
-        font-size:18px;
-    }
-
-    .msg{
-        max-width:97%;
-        padding:12px 14px;
-    }
-
-    header h1{
-        font-size:15px;
-    }
-}
-
-</style>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>boockBook IA</title>
+
+    <!-- Markdown -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <!-- KaTeX -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
+    >
+
+    <script
+        defer
+        src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js">
+    </script>
+
+    <script
+        defer
+        src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js">
+    </script>
+
+
+    <style>
+
+        /* =========================
+           RESET
+        ========================= */
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial,sans-serif;
+        }
+
+
+        /* =========================
+           BODY
+        ========================= */
+
+        body{
+            background:#0f172a;
+            color:white;
+
+            display:flex;
+
+            height:100vh;
+            height:100dvh;
+
+            overflow:hidden;
+        }
+
+
+        /* =========================
+           HISTORIQUE
+        ========================= */
+
+        #historyPanel{
+
+            width:260px;
+            min-width:260px;
+
+            background:#1e293b;
+
+            border-right:1px solid #334155;
+
+            padding:12px;
+
+            overflow-y:auto;
+
+            display:flex;
+            flex-direction:column;
+
+            transition:0.3s;
+        }
+
+
+        #historyPanel h2{
+
+            font-size:16px;
+
+            margin-bottom:10px;
+        }
+
+
+        #newChatBtn{
+
+            width:100%;
+
+            padding:10px;
+
+            border-radius:8px;
+
+            border:none;
+
+            background:#38bdf8;
+
+            color:#0f172a;
+
+            font-weight:bold;
+
+            margin-bottom:12px;
+
+            cursor:pointer;
+        }
+
+
+        #newChatBtn:hover{
+
+            opacity:0.9;
+        }
+
+
+        #historyList div{
+
+            padding:10px;
+
+            border-radius:6px;
+
+            cursor:pointer;
+
+            font-size:13px;
+
+            word-break:break-word;
+
+            margin-bottom:4px;
+        }
+
+
+        #historyList div:hover{
+
+            background:#334155;
+        }
+
+
+        #historyList p{
+
+            color:#94a3b8;
+
+            font-size:13px;
+
+            padding:10px;
+        }
+
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        .main{
+
+            flex:1;
+
+            display:flex;
+
+            flex-direction:column;
+
+            min-width:0;
+        }
+
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        header{
+
+            padding:12px 15px;
+
+            display:flex;
+
+            justify-content:space-between;
+
+            align-items:center;
+
+            gap:10px;
+
+            border-bottom:1px solid #334155;
+
+            background:#1e293b;
+        }
+
+
+        header h1{
+
+            font-size:18px;
+
+            white-space:nowrap;
+
+            overflow:hidden;
+
+            text-overflow:ellipsis;
+        }
+
+
+        header h1 span{
+
+            color:#38bdf8;
+        }
+
+
+        /* =========================
+           MENU MOBILE
+        ========================= */
+
+        #menuBtn{
+
+            display:none;
+
+            font-size:22px;
+
+            background:none;
+
+            border:none;
+
+            color:white;
+
+            cursor:pointer;
+        }
+
+
+        /* =========================
+           MODE IA
+        ========================= */
+
+        #modeSelect{
+
+            padding:8px 10px;
+
+            border-radius:8px;
+
+            border:1px solid #334155;
+
+            background:#0f172a;
+
+            color:white;
+
+            font-size:13px;
+
+            cursor:pointer;
+        }
+
+
+        #modeSelect:focus{
+
+            outline:none;
+
+            border-color:#38bdf8;
+        }
+
+
+        /* =========================
+           CHAT
+        ========================= */
+
+        #chat{
+
+            flex:1;
+
+            overflow-y:auto;
+
+            padding:20px;
+
+            display:flex;
+
+            flex-direction:column;
+
+            gap:12px;
+
+            scroll-behavior:smooth;
+        }
+
+
+        /* =========================
+           MESSAGES
+        ========================= */
+
+        .msg{
+
+            max-width:85%;
+
+            padding:12px 16px;
+
+            border-radius:18px;
+
+            font-size:14px;
+
+            line-height:1.6;
+
+            word-wrap:break-word;
+
+            overflow-wrap:break-word;
+        }
+
+
+        .user{
+
+            align-self:flex-end;
+
+            background:#2563eb;
+
+            border-bottom-right-radius:5px;
+        }
+
+
+        .bot{
+
+            align-self:flex-start;
+
+            background:#1e293b;
+
+            border:1px solid #334155;
+
+            border-bottom-left-radius:5px;
+        }
+
+
+        /* =========================
+           MARKDOWN
+        ========================= */
+
+        .bot h1,
+        .bot h2,
+        .bot h3{
+
+            margin:12px 0 8px;
+        }
+
+
+        .bot p{
+
+            margin:7px 0;
+        }
+
+
+        .bot ul,
+        .bot ol{
+
+            margin:8px 0 8px 22px;
+        }
+
+
+        .bot li{
+
+            margin:4px 0;
+        }
+
+
+        .bot blockquote{
+
+            border-left:4px solid #38bdf8;
+
+            padding-left:12px;
+
+            margin:10px 0;
+
+            color:#cbd5e1;
+        }
+
+
+        .bot table{
+
+            width:100%;
+
+            border-collapse:collapse;
+
+            margin:12px 0;
+
+            overflow:hidden;
+        }
+
+
+        .bot th,
+        .bot td{
+
+            border:1px solid #475569;
+
+            padding:8px;
+
+            text-align:left;
+        }
+
+
+        .bot th{
+
+            background:#334155;
+        }
+
+
+        .bot a{
+
+            color:#38bdf8;
+        }
+
+
+        /* =========================
+           CODE
+        ========================= */
+
+        .code-container{
+
+            position:relative;
+
+            margin:10px 0;
+        }
+
+
+        .code-container pre{
+
+            background:#020617;
+
+            border:1px solid #334155;
+
+            border-radius:8px;
+
+            padding:14px;
+
+            overflow-x:auto;
+
+            white-space:pre;
+        }
+
+
+        .code-container code{
+
+            font-family:monospace;
+
+            font-size:13px;
+        }
+
+
+        .copy-btn{
+
+            position:absolute;
+
+            top:7px;
+
+            right:7px;
+
+            border:none;
+
+            background:#334155;
+
+            color:white;
+
+            padding:5px 8px;
+
+            border-radius:5px;
+
+            cursor:pointer;
+
+            font-size:11px;
+        }
+
+
+        .copy-btn:hover{
+
+            background:#475569;
+        }
+
+
+        /* =========================
+           INPUT
+        ========================= */
+
+        .box{
+
+            display:flex;
+
+            padding:10px;
+
+            gap:8px;
+
+            background:#1e293b;
+
+            align-items:center;
+
+            border-top:1px solid #334155;
+        }
+
+
+        .box input{
+
+            flex:1;
+
+            min-width:0;
+
+            padding:14px;
+
+            border-radius:30px;
+
+            border:none;
+
+            background:#0f172a;
+
+            color:white;
+
+            outline:none;
+
+            font-size:16px;
+        }
+
+
+        .box input::placeholder{
+
+            color:#64748b;
+        }
+
+
+        .box button{
+
+            padding:14px 20px;
+
+            border-radius:30px;
+
+            border:none;
+
+            background:#38bdf8;
+
+            color:#0f172a;
+
+            font-weight:bold;
+
+            cursor:pointer;
+
+            white-space:nowrap;
+        }
+
+
+        .box button:hover{
+
+            opacity:0.9;
+        }
+
+
+        .box button:disabled{
+
+            opacity:0.5;
+
+            cursor:not-allowed;
+        }
+
+
+        /* =========================
+           OVERLAY
+        ========================= */
+
+        #overlay{
+
+            display:none;
+
+            position:fixed;
+
+            inset:0;
+
+            background:rgba(0,0,0,0.5);
+
+            z-index:9;
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media(max-width:768px){
+
+            #historyPanel{
+
+                position:fixed;
+
+                left:-100%;
+
+                top:0;
+
+                bottom:0;
+
+                z-index:10;
+
+                width:80%;
+
+                max-width:300px;
+            }
+
+
+            #historyPanel.open{
+
+                left:0;
+            }
+
+
+            #overlay.show{
+
+                display:block;
+            }
+
+
+            #menuBtn{
+
+                display:block;
+            }
+
+
+            header h1{
+
+                font-size:16px;
+
+                flex:1;
+
+                text-align:center;
+            }
+
+
+            #modeSelect{
+
+                font-size:12px;
+
+                padding:7px;
+
+                max-width:150px;
+            }
+
+
+            #chat{
+
+                padding:12px;
+            }
+
+
+            .msg{
+
+                max-width:95%;
+
+                font-size:13px;
+            }
+
+
+            .box{
+
+                padding:8px;
+            }
+
+
+            .box input{
+
+                padding:12px;
+
+                font-size:16px;
+            }
+
+
+            .box button{
+
+                padding:12px 16px;
+            }
+
+        }
+
+
+        /* =========================
+           TABLETTE
+        ========================= */
+
+        @media(min-width:769px) and (max-width:1024px){
+
+            #historyPanel{
+
+                width:220px;
+
+                min-width:220px;
+            }
+
+
+            .msg{
+
+                max-width:90%;
+            }
+
+        }
+
+    </style>
+
 </head>
+
 
 <body>
 
-<div id="overlay" onclick="toggleMenu()"></div>
 
-<!-- ================= HISTORIQUE ================= -->
+    <!-- =========================
+         OVERLAY MOBILE
+    ========================= -->
 
-<div id="historyPanel">
-
-    <h2>📚 Historique</h2>
-
-    <button id="newChatBtn">
-        ➕ Nouvelle conversation
-    </button>
-
-    <div id="historyList">
-        <p>Aucun historique</p>
+    <div
+        id="overlay"
+        onclick="toggleMenu()">
     </div>
 
-</div>
 
-<!-- ================= APPLICATION ================= -->
+    <!-- =========================
+         HISTORIQUE
+    ========================= -->
 
-<div class="main">
+    <div id="historyPanel">
 
-<header>
+        <h2>⏳ Historique</h2>
 
-    <button id="menuBtn" onclick="toggleMenu()">
-        ☰
-    </button>
+        <button id="newChatBtn">
+            ➕ Nouvelle conversation
+        </button>
 
-    <h1>
-        boockBook <span>IA</span>
-    </h1>
+        <div id="historyList">
 
-    <div style="width:30px"></div>
+            <p>Aucun historique</p>
 
-</header>
+        </div>
 
-<!-- ================= CHAT ================= -->
-
-<div id="chat">
-
-    <div class="msg bot">
-        API connectée ✅ Pose ta question RLC !
     </div>
 
-</div>
 
-<!-- ================= SAISIE ================= -->
+    <!-- =========================
+         APPLICATION PRINCIPALE
+    ========================= -->
 
-<div class="box">
-
-    <input
-        id="q"
-        placeholder="Ex: R=100, L=10mH..."
-    >
-
-    <button id="sendBtn">
-        Envoyer
-    </button>
-
-</div>
-
-</div>
-
-<script>
-
-/* ================= VARIABLES ================= */
-
-const chat =
-    document.getElementById("chat");
-
-const input =
-    document.getElementById("q");
-
-const historyList =
-    document.getElementById("historyList");
-
-const historyPanel =
-    document.getElementById("historyPanel");
-
-const newChatBtn =
-    document.getElementById("newChatBtn");
-
-const sendBtn =
-    document.getElementById("sendBtn");
+    <div class="main">
 
 
-/* ================= MENU ================= */
+        <!-- =========================
+             HEADER
+        ========================= -->
 
-function toggleMenu(){
+        <header>
 
-    historyPanel.classList.toggle("open");
-
-    document
-        .getElementById("overlay")
-        .classList.toggle("show");
-
-}
-
-
-/* ================= HISTORIQUE ================= */
-
-let conversations =
-    JSON.parse(
-        localStorage.getItem(
-            "boock_history"
-        ) || "[]"
-    );
+            <button
+                id="menuBtn"
+                onclick="toggleMenu()">
+                ☰
+            </button>
 
 
-/* ================= SAUVEGARDER ================= */
+            <h1>
+                boockBook <span>IA</span>
+            </h1>
 
-function saveCurrent(){
 
-    if(chat.innerText.length < 10){
-        return;
-    }
+            <!-- MODE IA -->
 
-    const html =
-        chat.innerHTML;
+            <select id="modeSelect">
 
-    const text =
-        chat.innerText;
+                <option value="normal">
+                    💬 Chat normal
+                </option>
 
-    let title =
-        text.substring(0,40);
+                <option value="professeur">
+                    🎓 Professeur
+                </option>
+
+            </select>
+
+        </header>
+
+
+        <!-- =========================
+             CHAT
+        ========================= -->
+
+        <div id="chat">
+
+            <div class="msg bot">
+
+                API connectée ✅
+
+                <br><br>
+
+                Pose ta question à boockBook IA.
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             ZONE DE SAISIE
+        ========================= -->
+
+        <div class="box">
+
+            <input
+                id="q"
+                type="text"
+                placeholder="Pose ta question..."
+                autocomplete="off"
+            >
+
+
+            <button
+                id="sendBtn"
+                onclick="ask()">
+
+                Envoyer
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         JAVASCRIPT
+    ========================= -->
+
+    <script>
+
+
+        /* =========================
+           MENU
+        ========================= */
+
+        function toggleMenu(){
+
+            document
+                .getElementById("historyPanel")
+                .classList.toggle("open");
+
+            document
+                .getElementById("overlay")
+                .classList.toggle("show");
+
+        }
+
+
+        /* =========================
+           ELEMENTS
+        ========================= */
+
+        const chat =
+            document.getElementById("chat");
+
+        const input =
+            document.getElementById("q");
+
+        const historyList =
+            document.getElementById("historyList");
+
+        const sendBtn =
+            document.getElementById("sendBtn");
+
+        const modeSelect =
+            document.getElementById("modeSelect");
+
+
+        /* =========================
+           HISTORIQUE
+        ========================= */
+
+        let conversations =
+            JSON.parse(
+                localStorage.getItem(
+                    "boock_history"
+                ) || "[]"
+            );
+
+
+        /* =========================
+           FORMATTER LA REPONSE IA
+        ========================= */
+function formatBotMessage(element, text){
+
+    /*
+     * Préparation des formules mathématiques
+     *
+     * On convertit les anciens délimiteurs LaTeX
+     * vers le format utilisé par KaTeX.
+     */
+
+    let mathText = text || "";
 
 
     /*
-       Évite les doublons exacts
-    */
+     * \[ ... \]  →  $$ ... $$
+     */
 
-    conversations =
-        conversations.filter(
-            c => c.html !== html
-        );
-
-
-    conversations.push({
-
-        title:title,
-
-        html:html,
-
-        date:Date.now()
-
-    });
+    mathText = mathText.replace(
+        /\\\[([\s\S]*?)\\\]/g,
+        "$$$$$1$$$$"
+    );
 
 
     /*
-       Maximum 20 conversations
-    */
+     * \( ... \)  →  $ ... $
+     */
 
-    if(conversations.length > 20){
-
-        conversations.shift();
-
-    }
-
-
-    localStorage.setItem(
-        "boock_history",
-        JSON.stringify(
-            conversations
-        )
+    mathText = mathText.replace(
+        /\\\(([\s\S]*?)\\\)/g,
+        "$$$1$$"
     );
 
 
-    localStorage.setItem(
-        "current_chat",
-        html
-    );
+    /*
+     * Markdown
+     */
+
+    element.innerHTML =
+        marked.parse(mathText);
 
 
-    renderHist();
+    /*
+     * Blocs de code
+     */
 
-}
+    element
+        .querySelectorAll("pre")
+        .forEach(pre => {
 
-
-/* ================= AFFICHER HISTORIQUE ================= */
-
-function renderHist(){
-
-    if(!conversations.length){
-
-        historyList.innerHTML =
-            "<p>Aucun historique</p>";
-
-        return;
-
-    }
-
-
-    historyList.innerHTML = "";
-
-
-    conversations
-        .slice()
-        .reverse()
-        .forEach((conversation,index)=>{
-
-            const div =
+            const container =
                 document.createElement("div");
 
-
-            div.textContent =
-                conversation.title;
-
-
-            div.onclick = function(){
-
-                chat.innerHTML =
-                    conversation.html;
+            container.className =
+                "code-container";
 
 
-                if(window.innerWidth <= 768){
+            const button =
+                document.createElement("button");
 
-                    toggleMenu();
+            button.className =
+                "copy-btn";
 
-                }
+            button.textContent =
+                "Copier";
 
-            };
+
+            button.onclick =
+                async () => {
+
+                    const code =
+                        pre.innerText;
+
+                    try{
+
+                        await navigator
+                            .clipboard
+                            .writeText(code);
+
+                        button.textContent =
+                            "Copié ✓";
 
 
-            historyList.appendChild(div);
+                        setTimeout(() => {
+
+                            button.textContent =
+                                "Copier";
+
+                        },1500);
+
+                    }
+                    catch(error){
+
+                        console.error(error);
+
+                        button.textContent =
+                            "Erreur";
+
+                    }
+
+                };
+
+
+            pre.parentNode.insertBefore(
+                container,
+                pre
+            );
+
+
+            container.appendChild(pre);
+
+            container.appendChild(button);
 
         });
 
-}
 
-
-/* ================= NOUVELLE CONVERSATION ================= */
-
-newChatBtn.onclick = function(){
-
-    saveCurrent();
-
-
-    chat.innerHTML = `
-
-        <div class="msg bot">
-            Nouvelle conversation ✅
-        </div>
-
-    `;
-
-
-    localStorage.removeItem(
-        "current_chat"
-    );
-
-
-    if(window.innerWidth <= 768){
-
-        toggleMenu();
-
-    }
-
-
-    input.focus();
-
-};
-
-
-/* ================= MARKDOWN + MATH ================= */
-
-function formatBotMessage(element){
+    /*
+     * Mathématiques KaTeX
+     */
 
     if(
-        typeof marked !== "undefined"
-    ){
-
-        const text =
-            element.textContent;
-
-        element.innerHTML =
-            marked.parse(text);
-
-    }
-
-
-    if(
-        typeof renderMathInElement !==
-        "undefined"
+        typeof renderMathInElement ===
+        "function"
     ){
 
         renderMathInElement(
@@ -792,23 +1015,13 @@ function formatBotMessage(element){
                         left:"$",
                         right:"$",
                         display:false
-                    },
-
-                    {
-                        left:"\\(",
-                        right:"\\)",
-                        display:false
-                    },
-
-                    {
-                        left:"\\[",
-                        right:"\\]",
-                        display:true
                     }
 
                 ],
 
-                throwOnError:false
+                throwOnError:false,
+
+                strict:false
 
             }
         );
@@ -816,366 +1029,473 @@ function formatBotMessage(element){
     }
 
 }
+        /* =========================
+           SAUVEGARDER LA CONVERSATION
+        ========================= */
 
+        function saveCurrent(){
 
-/* ================= QUESTION ================= */
+            if(chat.innerText.length < 10){
 
-async function ask(){
+                return;
 
-    const question =
-        input.value.trim();
+            }
 
 
-    if(!question){
-
-        return;
-
-    }
-
-
-    /*
-       Message utilisateur
-    */
-
-    const userMessage =
-        document.createElement("div");
-
-
-    userMessage.className =
-        "msg user";
-
-
-    userMessage.textContent =
-        question;
-
-
-    chat.appendChild(
-        userMessage
-    );
-
-
-    input.value = "";
-
-
-    /*
-       Message IA
-    */
-
-    const id =
-        Date.now();
-
-
-    const botMessage =
-        document.createElement("div");
-
-
-    botMessage.className =
-        "msg bot";
-
-
-    botMessage.id =
-        id;
-
-
-    botMessage.innerHTML = `
-
-        <div class="typing">
-
-            <span></span>
-            <span></span>
-            <span></span>
-
-        </div>
-
-    `;
-
-
-    chat.appendChild(
-        botMessage
-    );
-
-
-    chat.scrollTop =
-        chat.scrollHeight;
-
-
-    /*
-       API
-    */
-
-    try{
-
-        const messages = [];
-
-document.querySelectorAll("#chat .msg").forEach(msg => {
-
-    messages.push({
-        role: msg.classList.contains("user")
-            ? "user"
-            : "assistant",
-        content: msg.innerText
-    });
-
-});
-
-const res =
-    await fetch("/chat",{
-
-        method:"POST",
-
-        headers:{
-            "Content-Type":
-                "application/json"
-        },
-
-        body:
-            JSON.stringify({
-
-                question: question,
-
-                messages: messages
-
-            })
-
-    });
-
-
-        if(!res.ok){
-
-            throw new Error(
-                "HTTP " + res.status
-            );
-
-        }
-
-
-        const data =
-            await res.json();
-
-
-        const answer =
-            data.reponse ||
-            data.error ||
-            "Aucune réponse reçue.";
-
-
-        /*
-           Markdown
-        */
-
-        botMessage.innerHTML =
-            marked.parse(
-                answer
+            localStorage.setItem(
+                "current_chat",
+                chat.innerHTML
             );
 
 
-        /*
-           Mathématiques
-        */
-
-        if(
-            typeof renderMathInElement !==
-            "undefined"
-        ){
-
-            renderMathInElement(
-                botMessage,
-                {
-
-                    delimiters:[
-
-                        {
-                            left:"$$",
-                            right:"$$",
-                            display:true
-                        },
-
-                        {
-                            left:"$",
-                            right:"$",
-                            display:false
-                        },
-
-                        {
-                            left:"\\(",
-                            right:"\\)",
-                            display:false
-                        },
-
-                        {
-                            left:"\\[",
-                            right:"\\]",
-                            display:true
-                        }
-
-                    ],
-
-                    throwOnError:false
-
-                }
-            );
-
-        }
+            let title =
+                chat.innerText
+                    .replace(/\n+/g," ")
+                    .trim()
+                    .slice(0,40);
 
 
-        /*
-           Bouton copier pour le code
-        */
-
-        botMessage
-            .querySelectorAll("pre")
-            .forEach(pre=>{
-
-                const button =
-                    document.createElement(
-                        "button"
-                    );
-
-
-                button.textContent =
-                    "📋 Copier";
-
-
-                button.className =
-                    "copy-btn";
-
-
-                button.style.position =
-                    "absolute";
-
-
-                button.style.top =
-                    "8px";
-
-
-                button.style.right =
-                    "8px";
-
-
-                button.onclick =
-                    async function(){
-
-                        const code =
-                            pre.querySelector(
-                                "code"
-                            );
-
-
-                        if(!code){
-
-                            return;
-
-                        }
-
-
-                        await navigator
-                            .clipboard
-                            .writeText(
-                                code.textContent
-                            );
-
-
-                        button.textContent =
-                            "✅ Copié";
-
-
-                        setTimeout(
-                            function(){
-
-                                button.textContent =
-                                    "📋 Copier";
-
-                            },
-                            1500
-                        );
-
-                    };
-
-
-                pre.style.position =
-                    "relative";
-
-
-                pre.appendChild(
-                    button
+            conversations =
+                conversations.filter(
+                    c => c.title !== title
                 );
+
+
+            conversations.push({
+
+                title:title,
+
+                html:chat.innerHTML,
+
+                date:Date.now()
 
             });
 
 
+            /*
+             * Maximum 20 conversations
+             */
+
+            if(conversations.length > 20){
+
+                conversations.shift();
+
+            }
+
+
+            localStorage.setItem(
+                "boock_history",
+                JSON.stringify(
+                    conversations
+                )
+            );
+
+
+            renderHist();
+
+        }
+
+
+        /* =========================
+           AFFICHER HISTORIQUE
+        ========================= */
+
+        function renderHist(){
+
+            if(!conversations.length){
+
+                historyList.innerHTML =
+                    "<p>Aucun historique</p>";
+
+                return;
+
+            }
+
+
+            historyList.innerHTML = "";
+
+
+            conversations
+                .slice()
+                .reverse()
+                .forEach(c => {
+
+                    const d =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    d.textContent =
+                        c.title;
+
+
+                    d.onclick = () => {
+
+                        chat.innerHTML =
+                            c.html;
+
+
+                        localStorage.setItem(
+                            "current_chat",
+                            c.html
+                        );
+
+
+                        if(
+                            window.innerWidth <= 768
+                        ){
+
+                            toggleMenu();
+
+                        }
+
+                    };
+
+
+                    historyList
+                        .appendChild(d);
+
+                });
+
+        }
+
+
+        /* =========================
+           NOUVELLE CONVERSATION
+        ========================= */
+
+        document
+            .getElementById("newChatBtn")
+            .onclick = () => {
+
+                saveCurrent();
+
+
+                chat.innerHTML = `
+
+                    <div class="msg bot">
+
+                        Nouvelle conversation 🆕
+
+                        <br><br>
+
+                        Comment puis-je t'aider ?
+
+                    </div>
+
+                `;
+
+
+                localStorage.removeItem(
+                    "current_chat"
+                );
+
+
+                if(
+                    window.innerWidth <= 768
+                ){
+
+                    toggleMenu();
+
+                }
+
+            };
+
+
+        /* =========================
+           POSER UNE QUESTION
+        ========================= */
+
+        async function ask(){
+
+            const question =
+                input.value.trim();
+
+
+            if(!question){
+
+                return;
+
+            }
+
+
+            /*
+             * Récupérer le mode sélectionné
+             */
+
+            const mode =
+                modeSelect.value;
+
+
+            /*
+             * Afficher la question
+             */
+
+            chat.innerHTML += `
+
+                <div class="msg user">
+
+                    ${escapeHtml(question)}
+
+                </div>
+
+            `;
+
+
+            input.value = "";
+
+
+                   /*
+         * ID unique pour la réponse
+         */
+
+        const id = Date.now();
+
+        chat.innerHTML += `
+
+            <div
+                class="msg bot"
+                id="${id}"
+            >
+
+                Réflexion en cours...
+
+            </div>
+
+        `;
+
+
+        chat.scrollTop =
+            chat.scrollHeight;
+
+
         /*
-           Sauvegarde
-        */
+         * Fermer le menu mobile
+         */
 
-        saveCurrent();
+        if(window.innerWidth <= 768){
 
+            const panel =
+                document.getElementById(
+                    "historyPanel"
+                );
 
-    }
-    catch(error){
+            if(
+                panel.classList.contains("open")
+            ){
 
-        console.error(
-            error
-        );
+                toggleMenu();
 
+            }
 
-        botMessage.textContent =
-            "Erreur : API non disponible.";
-
-
-    }
-
-
-    chat.scrollTop =
-        chat.scrollHeight;
-
-}
+        }
 
 
-/* ================= ENVOYER ================= */
+        /*
+         * Désactiver le bouton
+         */
 
-sendBtn.addEventListener(
-    "click",
-    ask
-);
+        sendBtn.disabled = true;
 
 
-/* ================= ENTRÉE ================= */
+        try{
 
-input.addEventListener(
-    "keypress",
-    function(e){
+            /*
+             * Construire l'historique
+             */
 
-        if(e.key === "Enter"){
+            const messages = [];
 
-            ask();
+
+            document
+                .querySelectorAll("#chat .msg")
+                .forEach(msg => {
+
+                    /*
+                     * Ne pas envoyer
+                     * "Réflexion en cours..."
+                     */
+
+                    if(
+                        msg.id === String(id)
+                    ){
+
+                        return;
+
+                    }
+
+
+                    messages.push({
+
+                        role:
+                            msg.classList
+                                .contains("user")
+                                ? "user"
+                                : "assistant",
+
+                        content:
+                            msg.innerText
+
+                    });
+
+                });
+
+
+            /*
+             * Envoyer au serveur
+             */
+
+            const res =
+                await fetch("/chat",{
+
+                    method:"POST",
+
+                    headers:{
+
+                        "Content-Type":
+                            "application/json"
+
+                    },
+
+                    body:
+                        JSON.stringify({
+
+                            question:
+                                question,
+
+                            messages:
+                                messages,
+
+                            mode:
+                                mode
+
+                        })
+
+                });
+
+
+            const data =
+                await res.json();
+
+
+            const botMessage =
+                document.getElementById(id);
+
+
+            if(data.reponse){
+
+                formatBotMessage(
+                    botMessage,
+                    data.reponse
+                );
+
+            }
+            else{
+
+                botMessage.textContent =
+                    data.error ||
+                    "Une erreur est survenue.";
+
+            }
+
+
+            /*
+             * Sauvegarder
+             */
+
+            saveCurrent();
+
+
+        }
+        catch(error){
+
+            console.error(error);
+
+
+            const botMessage =
+                document.getElementById(id);
+
+
+            botMessage.textContent =
+                "Erreur de connexion au serveur.";
+
+        }
+        finally{
+
+            sendBtn.disabled = false;
+
+
+            chat.scrollTop =
+                chat.scrollHeight;
 
         }
 
     }
-);
 
 
-/* ================= CHARGER HISTORIQUE ================= */
+    /* =========================
+       ENTREE CLAVIER
+    ========================= */
 
-renderHist();
+    input.addEventListener(
+        "keypress",
+        e => {
 
+            if(e.key === "Enter"){
 
-/* ================= RESTAURER CHAT ================= */
+                ask();
 
-const saved =
-    localStorage.getItem(
-        "current_chat"
+            }
+
+        }
     );
 
 
-if(saved){
+    /* =========================
+       PROTECTION HTML
+    ========================= */
 
-    chat.innerHTML =
-        saved;
+    function escapeHtml(text){
 
-}
+        const div =
+            document.createElement("div");
+
+        div.textContent =
+            text;
+
+        return div.innerHTML;
+
+    }
+
+
+    /* =========================
+       CHARGER L'HISTORIQUE
+    ========================= */
+
+    renderHist();
+
+
+    /* =========================
+       RESTAURER LA CONVERSATION
+    ========================= */
+
+    const saved =
+        localStorage.getItem(
+            "current_chat"
+        );
+
+
+    if(saved){
+
+        chat.innerHTML =
+            saved;
+
+    }
+
 
 </script>
 
 </body>
+
 </html>
