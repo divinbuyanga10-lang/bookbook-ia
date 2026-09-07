@@ -80,22 +80,22 @@
         }
 
 
-        /* =========================
-           BODY
-        ========================= */
+ /* =========================
+   BODY
+========================= */
 
-        body{
-            background:#0f172a;
-            color:white;
+body {
+    background: #0f172a;
+    color: white;
 
-            display:flex;
+    min-height: 100vh;
+    min-height: 100dvh;
 
-            height:100vh;
-            height:100dvh;
+    margin: 0;
 
-            overflow:hidden;
-        }
-
+    overflow-x: hidden;
+    overflow-y: auto;
+}
 
         /* =========================
            HISTORIQUE
@@ -187,22 +187,18 @@
 
             padding:10px;
         }
+.main {
+    flex:1;
 
+    display:flex;
 
-        /* =========================
-           MAIN
-        ========================= */
+    flex-direction:column;
 
-        .main{
+    min-width:0;
 
-            flex:1;
-
-            display:flex;
-
-            flex-direction:column;
-
-            min-width:0;
-        }
+    height:100vh;
+    height:100dvh;
+}
 
 
         /* =========================
@@ -751,7 +747,34 @@
     margin: 8px auto;
     max-width: 750px;
 }
+/* =========================
+   CONTENU SEO
+========================= */
 
+.seo-intro {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    box-sizing: border-box;
+    line-height: 1.6;
+}
+
+.seo-intro h1 {
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+.seo-intro h2 {
+    font-size: 22px;
+    margin-top: 30px;
+    margin-bottom: 10px;
+}
+
+.seo-intro p {
+    font-size: 16px;
+    margin-bottom: 15px;
+}
     </style>
 
 </head>
@@ -1561,35 +1584,31 @@ function formatBotMessage(element, text){
     <!-- =========================
          CONTENU SEO
          ========================= -->
+<section class="seo-intro">
 
-    <section class="seo-intro">
+    <h1>boockBook IA - Ton assistant éducatif intelligent</h1>
 
-        <h1>boockBook IA - Ton assistant éducatif intelligent</h1>
+    <p>
+        boockBook IA est un assistant éducatif intelligent qui aide les étudiants
+        à apprendre, comprendre leurs cours, réviser et résoudre des exercices
+        grâce à l'intelligence artificielle.
+    </p>
 
-        <p>
-            boockBook IA est un assistant éducatif intelligent qui aide les étudiants
-            à apprendre, comprendre leurs cours, réviser et résoudre des exercices
-            grâce à l'intelligence artificielle.
-        </p>
+    <h2>Apprends avec l'intelligence artificielle</h2>
 
-        <h2>Apprends avec l'intelligence artificielle</h2>
+    <p>
+        Pose tes questions, demande des explications et découvre des méthodes
+        adaptées à ton niveau.
+    </p>
 
-        <p>
-            Pose tes questions, demande des explications et découvre des méthodes
-            adaptées à ton niveau.
-        </p>
+    <h2>Révise et entraîne-toi</h2>
 
-        <h2>Révise et entraîne-toi</h2>
+    <p>
+        Utilise le mode professeur pour apprendre progressivement, recevoir des
+        exercices et améliorer tes connaissances.
+    </p>
 
-        <p>
-            Utilise le mode professeur pour apprendre progressivement, recevoir des
-            exercices et améliorer tes connaissances.
-        </p>
-
-    </section>
-
-</body>
-</html>
-</body>
+</section>
+  </body>
 
 </html>
