@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://bookbook-ia.onrender.com/sitemap.xml
+
