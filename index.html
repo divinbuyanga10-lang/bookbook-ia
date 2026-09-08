@@ -87,16 +87,12 @@
 body {
     background: #0f172a;
     color: white;
-
     min-height: 100vh;
     min-height: 100dvh;
-
+    height: 100dvh;
     margin: 0;
-
-    overflow-x: hidden;
-    overflow-y: auto;
+    overflow: auto;
 }
-
         /* =========================
            HISTORIQUE
         ========================= */
@@ -148,7 +144,8 @@ body {
             margin-bottom:12px;
 
             cursor:pointer;
-        }
+      }
+
 
 
         #newChatBtn:hover{
@@ -188,16 +185,12 @@ body {
             padding:10px;
         }
 .main {
-    flex:1;
-
-    display:flex;
-
-    flex-direction:column;
-
-    min-width:0;
-
-    height:100vh;
-    height:100dvh;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    height: 100dvh;
+    min-height: 0;
 }
 
 
@@ -294,24 +287,17 @@ body {
         /* =========================
            CHAT
         ========================= */
-
-        #chat{
-
-            flex:1;
-
-            overflow-y:auto;
-
-            padding:20px;
-
-            display:flex;
-
-            flex-direction:column;
-
-            gap:12px;
-
-            scroll-behavior:smooth;
-        }
-
+#chat {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    scroll-behavior: smooth;
+}
 
         /* =========================
            MESSAGES
@@ -331,7 +317,7 @@ body {
 
             word-wrap:break-word;
 
-            overflow-wrap:break-word;
+            overflow-wrap:auto;
         }
 
 
@@ -728,6 +714,9 @@ body {
     margin: 0 auto;
     padding: 30px 20px;
     text-align: center;
+    flex: 0;
+    overflow-y: auto;
+}
 }
 
 .seo-intro h1 {
@@ -775,6 +764,322 @@ body {
     font-size: 16px;
     margin-bottom: 15px;
 }
+#app {
+    width: 100%;
+    height: 100dvh;
+    display: flex;
+    overflow: hidden;
+}
+
+#quizPanel {
+    padding: 20px;
+    overflow-y: auto;
+    max-height: 100%;
+}
+
+#quizPanel h2 {
+    margin-top: 0;
+}
+
+#quizPanel label {
+    display: block;
+    margin-top: 12px;
+    margin-bottom: 6px;
+}
+
+#quizPanel input,
+#quizPanel select {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    margin-bottom: 8px;
+}
+
+#generateQuizBtn,
+.quiz-next,
+.quiz-result button {
+    margin-top: 15px;
+    padding: 12px 18px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.quiz-question {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 20px 0;
+}
+
+.quiz-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.quiz-option {
+    text-align: left;
+    padding: 14px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.quiz-option:disabled {
+    cursor: default;
+    opacity: 0.7;
+}
+
+.quiz-correct,
+.quiz-wrong {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.quiz-correct {
+    border: 1px solid #22c55e;
+}
+
+.quiz-wrong {
+    border: 1px solid #ef4444;
+}
+
+.quiz-score {
+    font-size: 45px;
+    font-weight: bold;
+    text-align: center;
+    margin: 25px 0;
+}
+#cancelQuizBtn {
+    margin-top: 10px;
+    padding: 12px 18px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+#cancelQuizBtn {
+    margin-top: 10px;
+    padding: 12px 18px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+/* =========================
+   NOUVELLE INTERFACE HISTORIQUE
+   ========================= */
+
+.history-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.history-header h2 {
+    margin: 0;
+    font-size: 18px;
+}
+
+#closeHistoryBtn {
+    display: none;
+    border: none;
+    background: transparent;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+
+/* NOUVELLE CONVERSATION */
+
+.new-chat-btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background: #38bdf8;
+    color: #0f172a;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 12px;
+}
+
+
+/* RECHERCHE */
+
+.history-search {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    background: #0f172a;
+
+    border: 1px solid #334155;
+
+    border-radius: 10px;
+
+    padding: 8px 10px;
+
+    margin-bottom: 12px;
+}
+
+.history-search input {
+    width: 100%;
+
+    border: none;
+
+    outline: none;
+
+    background: transparent;
+
+    color: white;
+
+    font-size: 14px;
+}
+
+.history-search input::placeholder {
+    color: #64748b;
+}
+
+
+/* LISTE */
+
+#historyList {
+    flex: 1;
+
+    overflow-y: auto;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 7px;
+}
+
+
+/* CONVERSATION */
+
+.history-item {
+    position: relative;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    padding: 10px;
+
+    border-radius: 10px;
+
+    background: #0f172a;
+
+    border: 1px solid transparent;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.history-item:hover {
+    border-color: #334155;
+    background: #172033;
+}
+
+
+/* CONTENU */
+
+.history-info {
+    flex: 1;
+
+    min-width: 0;
+}
+
+.history-title {
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    font-size: 14px;
+
+    font-weight: 500;
+}
+
+.history-date {
+    margin-top: 4px;
+
+    font-size: 11px;
+
+    color: #64748b;
+}
+
+
+/* MENU ⋮ */
+
+.history-menu-btn {
+    border: none;
+
+    background: transparent;
+
+    color: #94a3b8;
+
+    font-size: 20px;
+
+    cursor: pointer;
+
+    padding: 4px 6px;
+
+    border-radius: 6px;
+}
+
+.history-menu-btn:hover {
+    background: #334155;
+
+    color: white;
+}
+
+
+/* EFFACER */
+
+.clear-history-btn {
+    width: 100%;
+
+    padding: 11px;
+
+    margin-top: 10px;
+
+    border: 1px solid #334155;
+
+    border-radius: 10px;
+
+    background: transparent;
+
+    color: #f87171;
+
+    cursor: pointer;
+}
+
+.clear-history-btn:hover {
+    background: #1e293b;
+}
+
+
+/* MOBILE */
+
+@media(max-width:768px) {
+
+    #closeHistoryBtn {
+        display: block;
+    }
+
+}
+
     </style>
 
 </head>
@@ -782,6 +1087,7 @@ body {
 
 <body>
 
+   <div id="app">
 
     <!-- =========================
          OVERLAY MOBILE
@@ -796,22 +1102,59 @@ body {
     <!-- =========================
          HISTORIQUE
     ========================= -->
+<div id="historyPanel">
 
-    <div id="historyPanel">
+    <div class="history-header">
 
-        <h2>⏳ Historique</h2>
+        <h2>📚 Historique</h2>
 
-        <button id="newChatBtn">
-            ➕ Nouvelle conversation
+        <button
+            id="closeHistoryBtn"
+            onclick="toggleMenu()">
+            ✕
         </button>
 
-        <div id="historyList">
+    </div>
 
-            <p>Aucun historique</p>
 
-        </div>
+    <button
+        id="newChatBtn"
+        class="new-chat-btn">
+        ＋ Nouvelle conversation
+    </button>
+
+
+    <div class="history-search">
+
+        <span>🔎</span>
+
+        <input
+            id="historySearch"
+            type="text"
+            placeholder="Rechercher..."
+            autocomplete="off"
+        >
 
     </div>
+
+
+    <div id="historyList">
+
+        <p>Aucun historique</p>
+
+    </div>
+
+
+    <button
+        id="clearHistoryBtn"
+        class="clear-history-btn"
+        onclick="clearHistory()">
+
+        🧹 Effacer l'historique
+
+    </button>
+
+</div>
 
 
     <!-- =========================
@@ -854,8 +1197,82 @@ body {
             </select>
 
         </header>
+       
+       <!-- =========================
+     PANNEAU QUIZ PROFESSEUR
+     ========================= -->
+<div id="quizPanel" style="display:none;">
 
+    <h2>🧠 Générer un quiz</h2>
 
+    <label for="quizSubject">
+        Matière / sujet
+    </label>
+
+    <input
+        id="quizSubject"
+        type="text"
+        placeholder="Ex : Mathématiques"
+    >
+
+    <label for="quizDifficulty">
+        Difficulté
+    </label>
+
+    <select id="quizDifficulty">
+
+        <option value="facile">
+            Facile
+        </option>
+
+        <option value="moyen" selected>
+            Moyen
+        </option>
+
+        <option value="difficile">
+            Difficile
+        </option>
+
+    </select>
+
+    <label for="quizCount">
+        Nombre de questions
+    </label>
+
+    <select id="quizCount">
+
+        <option value="5">
+            5 questions
+        </option>
+
+        <option value="10" selected>
+            10 questions
+        </option>
+
+        <option value="15">
+            15 questions
+        </option>
+
+        <option value="20">
+            20 questions
+        </option>
+
+    </select>
+
+    <button
+        id="generateQuizBtn"
+        onclick="generateQuiz()">
+        🧠 Générer le quiz
+    </button>
+
+    <button
+        id="cancelQuizBtn"
+        type="button"
+        onclick="cancelQuiz()">
+        ✖ Annuler
+    </button>
+
+</div>
         <!-- =========================
              CHAT
         ========================= -->
@@ -878,30 +1295,41 @@ body {
         <!-- =========================
              ZONE DE SAISIE
         ========================= -->
+<div class="box">
 
-        <div class="box">
+  <!-- Bouton pour choisir une image -->
+  <button
+    id="imageBtn"
+    type="button"
+    onclick="document.getElementById('imageInput').click()">
+    📷
+  </button>
 
-            <input
-                id="q"
-                type="text"
-                placeholder="Pose ta question..."
-                autocomplete="off"
-            >
+  <!-- Sélection de l'image -->
+  <input
+    id="imageInput"
+    type="file"
+    accept="image/*"
+    hidden
+  >
 
+  <input
+    id="q"
+    type="text"
+    placeholder="Pose ta question…"
+    autocomplete="off"
+  >
 
-            <button
-                id="sendBtn"
-                onclick="ask()">
+  <button
+    id="sendBtn"
+    onclick="ask()">
+    Envoyer
+  </button>
 
-                Envoyer
+</div>
 
-            </button>
-
-        </div>
-
-    </div>
-
-
+<!-- Aperçu de l'image sélectionnée -->
+<div id="imagePreview" style="display:none;"></div>
     <!-- =========================
          JAVASCRIPT
     ========================= -->
@@ -944,7 +1372,112 @@ body {
 
         const modeSelect =
             document.getElementById("modeSelect");
+const quizPanel = document.getElementById("quizPanel");
+const quizSubject = document.getElementById("quizSubject");
+const quizDifficulty = document.getElementById("quizDifficulty");
+const quizCount = document.getElementById("quizCount");
+const generateQuizBtn = document.getElementById("generateQuizBtn");
 
+let currentQuiz = null;
+let currentQuestionIndex = 0;
+let quizScore = 0;
+/* =========================
+   IMAGE
+========================= */
+
+const imageInput = document.getElementById("imageInput");
+const imagePreview = document.getElementById("imagePreview");
+
+let selectedImage = null;
+
+
+/* =========================
+   CHOISIR UNE IMAGE
+========================= */
+
+imageInput.addEventListener("change", () => {
+
+    const file = imageInput.files[0];
+
+    if (!file) {
+        return;
+    }
+
+    // Vérifier que c'est bien une image
+    if (!file.type.startsWith("image/")) {
+
+        alert("Veuillez sélectionner une image.");
+
+        imageInput.value = "";
+
+        return;
+    }
+
+
+    const reader = new FileReader();
+
+
+    reader.onload = () => {
+
+        selectedImage = reader.result;
+
+
+        // Afficher l'aperçu
+        imagePreview.innerHTML = `
+            <div style="position:relative; display:inline-block;">
+                
+                <img
+                    src="${selectedImage}"
+                    style="
+                        max-width:180px;
+                        max-height:180px;
+                        border-radius:12px;
+                        margin-top:10px;
+                    "
+                >
+
+                <button
+                    type="button"
+                    onclick="removeImage()"
+                    style="
+                        position:absolute;
+                        top:5px;
+                        right:5px;
+                        border:none;
+                        border-radius:50%;
+                        width:28px;
+                        height:28px;
+                        cursor:pointer;
+                    ">
+                    ×
+                </button>
+
+            </div>
+        `;
+
+        imagePreview.style.display = "block";
+    };
+
+
+    reader.readAsDataURL(file);
+
+});
+
+
+/* =========================
+   SUPPRIMER L'IMAGE
+========================= */
+
+function removeImage(){
+
+    selectedImage = null;
+
+    imageInput.value = "";
+
+    imagePreview.innerHTML = "";
+
+    imagePreview.style.display = "none";
+}
 
         /* =========================
            HISTORIQUE
@@ -1184,68 +1717,182 @@ function formatBotMessage(element, text){
         /* =========================
            AFFICHER HISTORIQUE
         ========================= */
+function renderHist() {
 
-        function renderHist(){
+    if (!conversations.length) {
+        historyList.innerHTML =
+            "<p>Aucun historique</p>";
+        return;
+    }
 
-            if(!conversations.length){
+    historyList.innerHTML = "";
 
-                historyList.innerHTML =
-                    "<p>Aucun historique</p>";
+    conversations
+        .slice()
+        .reverse()
+        .forEach((c, index) => {
 
-                return;
+            const d =
+                document.createElement("div");
+
+            d.className = "history-item";
+
+
+            // =========================
+            // CONTENU DE LA CONVERSATION
+            // =========================
+
+            const info =
+                document.createElement("div");
+
+            info.className = "history-info";
+
+
+            const title =
+                document.createElement("div");
+
+            title.className = "history-title";
+
+            title.textContent =
+                "📚 " + c.title;
+
+
+            // =========================
+            // DATE ET HEURE
+            // =========================
+
+            const date =
+                document.createElement("div");
+
+            date.className = "history-date";
+
+            if (c.date) {
+
+                const dateObj =
+                    new Date(c.date);
+
+                date.textContent =
+                    dateObj.toLocaleDateString(
+                        "fr-FR",
+                        {
+                            day: "2-digit",
+                            month: "2-digit",
+                            year: "numeric"
+                        }
+                    )
+                    + " • "
+                    +
+                    dateObj.toLocaleTimeString(
+                        "fr-FR",
+                        {
+                            hour: "2-digit",
+                            minute: "2-digit"
+                        }
+                    );
+
+            } else {
+
+                date.textContent =
+                    "Date inconnue";
 
             }
 
 
-            historyList.innerHTML = "";
+            info.appendChild(title);
+
+            info.appendChild(date);
 
 
-            conversations
-                .slice()
-                .reverse()
-                .forEach(c => {
+            // =========================
+            // MENU ⋮
+            // =========================
 
-                    const d =
-                        document.createElement(
-                            "div"
-                        );
+            const menuBtn =
+                document.createElement("button");
 
+            menuBtn.className =
+                "history-menu-btn";
 
-                    d.textContent =
-                        c.title;
+            menuBtn.textContent = "⋮";
 
 
-                    d.onclick = () => {
+            // =========================
+            // SUPPRESSION
+            // =========================
 
-                        chat.innerHTML =
-                            c.html;
+            menuBtn.onclick = (event) => {
 
+                event.stopPropagation();
 
-                        localStorage.setItem(
-                            "current_chat",
-                            c.html
-                        );
+                const confirmDelete =
+                    confirm(
+                        "Supprimer cette conversation ?"
+                    );
 
-
-                        if(
-                            window.innerWidth <= 768
-                        ){
-
-                            toggleMenu();
-
-                        }
-
-                    };
+                if (!confirmDelete) {
+                    return;
+                }
 
 
-                    historyList
-                        .appendChild(d);
+                /*
+                 * On retrouve l'index réel
+                 * dans le tableau conversations.
+                 */
 
-                });
+                const realIndex =
+                    conversations.length -
+                    1 -
+                    index;
 
-        }
+
+                conversations.splice(
+                    realIndex,
+                    1
+                );
 
 
+                localStorage.setItem(
+                    "boock_history",
+                    JSON.stringify(conversations)
+                );
+
+
+                renderHist();
+            };
+
+
+            // =========================
+            // OUVRIR LA CONVERSATION
+            // =========================
+
+            d.onclick = () => {
+
+                chat.innerHTML =
+                    c.html;
+
+                localStorage.setItem(
+                    "current_chat",
+                    c.html
+                );
+
+
+                if (
+                    window.innerWidth <= 768
+                ) {
+                    toggleMenu();
+                }
+
+            };
+
+
+            d.appendChild(info);
+
+            d.appendChild(menuBtn);
+
+            historyList.appendChild(d);
+
+        });
+}
         /* =========================
            NOUVELLE CONVERSATION
         ========================= */
@@ -1318,14 +1965,27 @@ function formatBotMessage(element, text){
              */
 
             chat.innerHTML += `
+    <div class="msg user">
+        ${
+            selectedImage
+            ? `<img src="${selectedImage}"
+                    style="
+                        max-width:220px;
+                        max-height:220px;
+                        display:block;
+                        border-radius:12px;
+                        margin-bottom:8px;
+                    ">`
+            : ""
+        }
 
-                <div class="msg user">
-
-                    ${escapeHtml(question)}
-
-                </div>
-
-            `;
+        ${
+            question
+            ? `<div>${escapeHtml(question)}</div>`
+            : ""
+        }
+    </div>
+`;
 
 
             input.value = "";
@@ -1442,20 +2102,12 @@ function formatBotMessage(element, text){
                             "application/json"
 
                     },
-
-                    body:
-                        JSON.stringify({
-
-                            question:
-                                question,
-
-                            messages:
-                                messages,
-
-                            mode:
-                                mode
-
-                        })
+body: JSON.stringify({
+    question: question,
+    messages: messages,
+    mode: mode,
+    image: selectedImage
+})
 
                 });
 
@@ -1490,6 +2142,8 @@ function formatBotMessage(element, text){
              */
 
             saveCurrent();
+            removeImage();
+
 
 
         }
@@ -1518,6 +2172,420 @@ function formatBotMessage(element, text){
 
     }
 
+    
+     /* =========================
+   MODE PROFESSEUR → QUIZ
+   ========================= */
+
+modeSelect.addEventListener("change", () => {
+
+    if (modeSelect.value === "professeur") {
+
+        quizPanel.style.display = "block";
+
+    } else {
+
+        quizPanel.style.display = "none";
+
+        currentQuiz = null;
+        currentQuestionIndex = 0;
+        quizScore = 0;
+
+    }
+
+});
+function cancelQuiz() {
+
+    currentQuiz = null;
+    currentQuestionIndex = 0;
+    quizScore = 0;
+
+    quizPanel.innerHTML = `
+        <h2>🧠 Générer un quiz</h2>
+
+        <label for="quizSubject">
+            Matière / sujet
+        </label>
+
+        <input
+            id="quizSubject"
+            type="text"
+            placeholder="Ex : Mathématiques"
+        >
+
+        <label for="quizDifficulty">
+            Difficulté
+        </label>
+
+        <select id="quizDifficulty">
+
+            <option value="facile">
+                Facile
+            </option>
+
+            <option value="moyen" selected>
+                Moyen
+            </option>
+
+            <option value="difficile">
+                Difficile
+            </option>
+
+        </select>
+
+        <label for="quizCount">
+            Nombre de questions
+        </label>
+
+        <select id="quizCount">
+
+            <option value="5">
+                5 questions
+            </option>
+
+            <option value="10" selected>
+                10 questions
+            </option>
+
+            <option value="15">
+                15 questions
+            </option>
+
+            <option value="20">
+                20 questions
+            </option>
+
+        </select>
+
+        <button
+            id="generateQuizBtn"
+            onclick="generateQuiz()">
+            🧠 Générer le quiz
+        </button>
+
+        <button
+            id="cancelQuizBtn"
+            type="button"
+            onclick="cancelQuiz()">
+            ✖ Annuler
+        </button>
+    `;
+}
+async function generateQuiz() {
+
+    // On récupère toujours les éléments actuellement présents
+    // dans le panneau
+    const subjectInput = document.getElementById("quizSubject");
+    const difficultyInput = document.getElementById("quizDifficulty");
+    const countInput = document.getElementById("quizCount");
+
+    const subject = subjectInput.value.trim();
+    const difficulty = difficultyInput.value;
+    const count = countInput.value;
+
+    if (!subject) {
+
+        alert("Entre d'abord une matière ou un sujet.");
+
+        subjectInput.focus();
+
+        return;
+    }
+
+    const button = document.getElementById("generateQuizBtn");
+
+    button.disabled = true;
+    button.textContent = "⏳ Génération...";
+
+    try {
+
+        const response = await fetch("/generate-quiz", {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+
+                subject: subject,
+                difficulty: difficulty,
+                count: count
+
+            })
+
+        });
+
+        const data = await response.json();
+
+        if (!response.ok || data.error) {
+
+            throw new Error(
+                data.error || "Erreur lors de la génération."
+            );
+
+        }
+
+        currentQuiz = data;
+        currentQuestionIndex = 0;
+        quizScore = 0;
+
+        showQuizQuestion();
+
+    } catch (error) {
+
+        console.error("Erreur quiz :", error);
+
+        alert(
+            error.message ||
+            "Impossible de générer le quiz."
+        );
+
+    } finally {
+
+        const currentButton =
+            document.getElementById("generateQuizBtn");
+
+        if (currentButton) {
+
+            currentButton.disabled = false;
+            currentButton.textContent = "🧠 Générer le quiz";
+
+        }
+
+    }
+}
+function cancelQuiz() {
+
+    currentQuiz = null;
+    currentQuestionIndex = 0;
+    quizScore = 0;
+
+    quizPanel.style.display = "none";
+
+}
+
+function showQuizQuestion() {
+
+    if (!currentQuiz ||
+        !currentQuiz.questions ||
+        !currentQuiz.questions.length) {
+
+        alert("Le quiz reçu est vide.");
+
+        return;
+    }
+
+    const question =
+        currentQuiz.questions[currentQuestionIndex];
+
+    const total =
+        currentQuiz.questions.length;
+
+    let optionsHTML = "";
+
+    question.options.forEach((option, index) => {
+
+        optionsHTML += `
+
+            <button
+                class="quiz-option"
+                onclick="answerQuiz(${index})">
+
+                <span>
+                    ${String.fromCharCode(65 + index)}.
+                </span>
+
+                ${escapeHtml(option)}
+
+            </button>
+
+        `;
+
+    });
+
+
+    quizPanel.innerHTML = `
+
+        <div class="quiz-header">
+
+            <h2>
+                🧠 ${escapeHtml(currentQuiz.title)}
+            </h2>
+
+            <div class="quiz-progress">
+                Question ${currentQuestionIndex + 1}
+                / ${total}
+            </div>
+
+        </div>
+
+
+        <div class="quiz-question">
+
+            ${escapeHtml(question.question)}
+
+        </div>
+
+
+        <div class="quiz-options">
+
+            ${optionsHTML}
+
+        </div>
+
+
+        <div id="quizFeedback"></div>
+
+    `;
+}
+
+
+function answerQuiz(selectedIndex) {
+
+    const question =
+        currentQuiz.questions[currentQuestionIndex];
+
+    const feedback =
+        document.getElementById("quizFeedback");
+
+    const options =
+        document.querySelectorAll(".quiz-option");
+
+
+    options.forEach(button => {
+
+        button.disabled = true;
+
+    });
+
+
+    if (selectedIndex === question.answer) {
+
+        quizScore++;
+
+        feedback.innerHTML = `
+
+            <div class="quiz-correct">
+
+                ✅ Bonne réponse !
+
+                <p>
+                    ${escapeHtml(question.explanation)}
+                </p>
+
+            </div>
+
+        `;
+
+    } else {
+
+        feedback.innerHTML = `
+
+            <div class="quiz-wrong">
+
+                ❌ Mauvaise réponse.
+
+                <p>
+                    ${escapeHtml(question.explanation)}
+                </p>
+
+            </div>
+
+        `;
+
+    }
+
+
+    const nextButton =
+        document.createElement("button");
+
+    nextButton.className = "quiz-next";
+
+    nextButton.textContent =
+        currentQuestionIndex <
+        currentQuiz.questions.length - 1
+        ? "Question suivante →"
+        : "Voir mon score 🎓";
+
+
+    nextButton.onclick = () => {
+
+        currentQuestionIndex++;
+
+        if (
+            currentQuestionIndex <
+            currentQuiz.questions.length
+        ) {
+
+            showQuizQuestion();
+
+        } else {
+
+            showQuizResult();
+
+        }
+
+    };
+
+
+    feedback.appendChild(nextButton);
+
+}
+
+
+function showQuizResult() {
+
+    const total =
+        currentQuiz.questions.length;
+
+    const percentage =
+        Math.round((quizScore / total) * 100);
+
+
+    quizPanel.innerHTML = `
+
+        <div class="quiz-result">
+
+            <h2>🎓 Quiz terminé</h2>
+
+            <div class="quiz-score">
+
+                ${quizScore} / ${total}
+
+            </div>
+
+            <p>
+
+                Score : <strong>
+                    ${percentage}%
+                </strong>
+
+            </p>
+
+
+            ${
+                percentage >= 80
+                ? "<p>🏆 Excellent travail !</p>"
+                : percentage >= 50
+                ? "<p>👍 Bon travail, continue tes révisions.</p>"
+                : "<p>📚 Il faut encore réviser cette matière.</p>"
+            }
+
+
+            <button
+                onclick="generateQuiz()">
+
+                🔄 Nouveau quiz
+
+            </button>
+
+        </div>
+
+    `;
+
+}
 
     /* =========================
        ENTREE CLAVIER
